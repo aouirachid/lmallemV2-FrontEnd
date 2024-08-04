@@ -1,0 +1,86 @@
+/* Sidebar */
+#sidebar {
+    background-color: #f8f9fa;
+    height: 100vh;
+    padding: 15px;
+}
+
+.sidebar-header {
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.logo {
+    max-width: 100%;
+    height: auto;
+}
+
+.nav-link {
+    width: 252px;
+    height: 64px;
+    padding: 10px 15px;
+    font-size: 16px;
+    color: #333;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    border-radius: 16px;
+}
+
+.nav-link:hover {
+    background-color: #3E33FE;
+    color: #fff;
+}
+
+.nav-link i {
+    margin-right: 10px;
+}
+
+.submenu {
+    display: none;
+    background-color: #FF7909;
+}
+
+.submenu.show {
+    display: block;
+}
+
+.submenu .nav-link {
+    color: #fff;
+}
+
+.submenu .nav-link:hover {
+    background-color: #FF6700;
+}
+
+/* Top Bar */
+.top-bar {
+    border-bottom: 1px solid #ddd;
+    padding: 0 15px; /* Adjust padding if needed */
+}
+
+.user-image {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+.btn-light {
+    border: none;
+    background-color: #f8f9fa;
+}
+
+.btn-light:hover {
+    background-color: #e9ecef;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+}
+
+.dropdown-menu {
+    position: absolute;
+    right: 0;
+    top: 100%;
+}

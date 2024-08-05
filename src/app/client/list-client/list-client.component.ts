@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-list-client',
   standalone: true,
-  imports: [],
+  imports: [RouterModule],
   templateUrl: './list-client.component.html',
   styleUrl: './list-client.component.css'
 })

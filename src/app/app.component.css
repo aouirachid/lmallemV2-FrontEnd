@@ -1,22 +1,37 @@
 /* Sidebar */
 #sidebar {
-    background-color: #f8f9fa;
-    height: 100vh;
-    padding: 15px;
+    background-color: #ffffff;
+    width: 250px;
+    height: 100vh; /* Adjust this if necessary to full height */
+    padding: 0; /* Removed padding */
+    transition: margin-left 0.5s; /* Smooth transition for sidebar */
+    margin-left: -250px; 
 }
 
+#sidebar.active {
+    margin-left: 0; /* Slide in */
+}
+
+@media (min-width: 1508px) {
+    #sidebar {
+        margin-left: 0; /* Always visible on larger screens */
+    }
+}
 .sidebar-header {
-    padding: 15px;
-    border-bottom: 1px solid #ddd;
+    padding: 0 15px; /* Align padding with top bar */
+    background-color: #ffffff; /* Ensure background matches top bar */
+    border-bottom: none; /* Remove border */
 }
 
 .logo {
-    max-width: 100%;
-    height: auto;
+    width: auto; /* Adjust width as needed */
+    height: 60px; /* Match top bar height */
+    vertical-align: middle; /* Align vertically */
+    margin-bottom: 20px;
 }
 
 .nav-link {
-    width: 252px;
+    width: 250px;
     height: 64px;
     padding: 10px 15px;
     font-size: 16px;
@@ -55,8 +70,15 @@
 
 /* Top Bar */
 .top-bar {
-    border-bottom: 1px solid #ddd;
-    padding: 0 15px; /* Adjust padding if needed */
+    display: flex;
+    justify-content: flex-end; /* Aligns items to the right */
+    width: 100%; /* Ensures it takes full width of its container */
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    margin-left: auto; /* Ensures it moves to the far right */
 }
 
 .user-image {

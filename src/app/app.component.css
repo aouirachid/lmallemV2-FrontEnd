@@ -18,8 +18,7 @@
     }
 }
 .sidebar-header {
-    padding: 0 15px; /* Align padding with top bar */
-    background-color: #ffffff; /* Ensure background matches top bar */
+    padding: 0 30px 20px 0; /* Align padding with top bar */
     border-bottom: none; /* Remove border */
 }
 

@@ -15,11 +15,19 @@ import { ListNewOrderComponent } from "./orders/list-new-order/list-new-order.co
 import { ProcessingOrderComponent } from './orders/processing-order/processing-order.component';
 import { DelivredOrderComponent } from './orders/delivred-order/delivred-order.component';
 import { CancelOrderComponent } from './orders/cancel-order/cancel-order.component';
+import { ListRoleComponent } from './admin/list-role/list-role.component';
+import { AddRoleComponent } from './admin/add-role/add-role.component';
+import { ListPermissionComponent } from './admin/list-permission/list-permission.component';
+import { AddPermissionComponent } from './admin/add-permission/add-permission.component';
 
 export const routes: Routes = [
     { path : "", component : DashboardComponent , title : "Dashboard" },
     { path : "list-admin", component : ListAdminComponent , title : "List Admin" },
     { path : "add-admin", component : AddAdminComponent , title : "Add Admin" },
+    { path : "list-role",component: ListRoleComponent,title:"List Role" },
+    { path : "add-role",component: AddRoleComponent,title:"Add Role" },
+    { path : "list-permission",component: ListPermissionComponent,title:"List Permission" },
+    { path : "add-permission",component: AddPermissionComponent,title:"Add Permission" },
     { path : "list-category", component : ListCategoryComponent , title : "List Category" },
     { path : "add-category", component : AddCategoryComponent , title : "Add Category" },
     { path : "list-service", component : ListServiceComponent , title : "List Service" },

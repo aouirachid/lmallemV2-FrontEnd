@@ -118,34 +118,28 @@
             </nav>
 
             <!-- Main Content -->
-              <main role="main" class="col-12 col-md-9 ml-sm-auto col-lg-10 px-md-4">
-                  <!-- Top Bar -->
-                  <div class="top-bar d-flex row justify-content-between align-items-center py-2">
-                    <!-- Navicon for small screens -->
-                    <button class="navbar-toggler d-md-none" type="button" (click)="toggleSidebar()">
-                        <span class="navbar-toggler-icon"></span>
+            <main role="main" class="col-12 col-md-9 ml-sm-auto col-lg-10 px-md-4">
+                <!-- Top Bar -->
+                <div class="top-bar d-flex row justify-content-between align-items-center py-2">
+                    <!-- Toggle Button for Sidebar -->
+                    <button class="navbar-toggler px-2 d-flex col order-first d-lg-none" type="button" (click)="toggleSidebar()">
+                        <i class="fa fa-bars"></i>
                     </button>
-
-                    <div class="d-flex col order-last">
-                        <!-- <button class="btn btn-light mr-2">
-                            <i class="fa fa-bell"></i>
-                        </button> -->
+                    <div ngbDropdown class="d-flex col order-last">
                         <div class="user-info d-flex align-items-center">
                             <img src="user-image.jpg" alt="User Image" class="user-image">
                             <span class="ml-2">User Name <br><small>Role</small></span>
-                            <button class="btn btn-light dropdown-toggle ml-3" data-toggle="dropdown">
-                                <i class="fa fa-caret-down"></i>
-                            </button>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">Logout</a>
+                            <button class="btn btn-light ml-3" ngbDropdownToggle ></button>
+                            <div ngbDropdownMenu >
+                                <a ngbDropdownItem href="#"><i class="fa fa-sign-out"></i>  Logout</a> 
                             </div>
                         </div>
                     </div>
-                  </div>
-                  <div class="container-fluid">
+                </div>
+                <div class="container-fluid">
                     <router-outlet></router-outlet> <!-- Angular Router Outlet -->
                 </div>
-              </main>
+            </main>
         </div>
     </div>
 

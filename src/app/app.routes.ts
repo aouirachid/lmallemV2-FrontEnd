@@ -19,6 +19,7 @@ import { ListRoleComponent } from './admin/list-role/list-role.component';
 import { AddRoleComponent } from './admin/add-role/add-role.component';
 import { ListPermissionComponent } from './admin/list-permission/list-permission.component';
 import { AddPermissionComponent } from './admin/add-permission/add-permission.component';
+import { EditPermissionComponent } from './admin/edit-permission/edit-permission.component';
 
 export const routes: Routes = [
     { path : "", component : DashboardComponent , title : "Dashboard" },
@@ -28,6 +29,7 @@ export const routes: Routes = [
     { path : "add-role",component: AddRoleComponent,title:"Add Role" },
     { path : "list-permission",component: ListPermissionComponent,title:"List Permission" },
     { path : "add-permission",component: AddPermissionComponent,title:"Add Permission" },
+    { path : "edit-permission/:id",component: EditPermissionComponent,title:"Edit Permission" },
     { path : "list-category", component : ListCategoryComponent , title : "List Category" },
     { path : "add-category", component : AddCategoryComponent , title : "Add Category" },
     { path : "list-service", component : ListServiceComponent , title : "List Service" },

@@ -8,13 +8,22 @@
 </div>
 
 <div class="container mt-4">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-body">
-
-                </div>
-            </div>
-        </div>
-    </div>
+    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dttrigger" class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Name</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let Permission of Permissions; let i = index">
+                <td>{{ Permission.id }}</td>
+                <td>{{ Permission.name }}</td>
+                <td>
+                    <button type="button" class="btn btn-danger" (click)="delete(Permission.id, i)" ><i class="fa fa-trash"></i></button>
+                    <button type="button" class="btn btn-success mx-2" [routerLink]="['/edit-permission', Permission.id]"><i class="fa fa-edit"></i></button>
+                </td>
+        </tbody>
+    </table>
 </div>

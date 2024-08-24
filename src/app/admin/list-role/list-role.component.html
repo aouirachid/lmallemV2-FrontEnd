@@ -6,3 +6,25 @@
         </div>
     </div>
 </div>
+
+<div class="container mt-4">
+    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dttrigger" class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Name</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let Role of Roles; let i = index">
+                <td>{{ Role.id }}</td>
+                <td>{{ Role.name }}</td>
+                <td>
+                    <button type="button" class="btn btn-danger" (click)="delete(Role.id, i)" ><i class="fa fa-trash"></i></button>
+                    <button type="button" class="btn btn-success mx-2" [routerLink]="['/edit-role', Role.id]"><i class="fa fa-edit"></i></button>
+                    <button type="button" class="btn btn-success mx-2" [routerLink]="['/add-permission-to-role', Role.id]"><i class="fa fa-edit"></i>Add Permission To Role</button>
+                </td>
+        </tbody>
+    </table>    
+</div>

@@ -20,6 +20,9 @@ import { AddRoleComponent } from './admin/add-role/add-role.component';
 import { ListPermissionComponent } from './admin/list-permission/list-permission.component';
 import { AddPermissionComponent } from './admin/add-permission/add-permission.component';
 import { EditPermissionComponent } from './admin/edit-permission/edit-permission.component';
+import { EditRoleComponent } from './admin/edit-role/edit-role.component';
+import { AddPermissionToRoleComponent } from './admin/add-permission-to-role/add-permission-to-role.component';
+import { EditCategoryComponent } from './category/edit-category/edit-category.component';
 
 export const routes: Routes = [
     { path : "", component : DashboardComponent , title : "Dashboard" },
@@ -27,11 +30,14 @@ export const routes: Routes = [
     { path : "add-admin", component : AddAdminComponent , title : "Add Admin" },
     { path : "list-role",component: ListRoleComponent,title:"List Role" },
     { path : "add-role",component: AddRoleComponent,title:"Add Role" },
+    { path : "edit-role/:id",component:EditRoleComponent,title:"Edit Role" },
     { path : "list-permission",component: ListPermissionComponent,title:"List Permission" },
     { path : "add-permission",component: AddPermissionComponent,title:"Add Permission" },
     { path : "edit-permission/:id",component: EditPermissionComponent,title:"Edit Permission" },
+    { path : "add-permission-to-role/:id",component: AddPermissionToRoleComponent,title:"Add Permission To Role" },
     { path : "list-category", component : ListCategoryComponent , title : "List Category" },
     { path : "add-category", component : AddCategoryComponent , title : "Add Category" },
+    { path : "edit-category/:id",component: EditCategoryComponent,title:"Edit Category" },
     { path : "list-service", component : ListServiceComponent , title : "List Service" },
     { path : "add-service", component : AddServiceComponent , title : "Add Service" },
     { path : "list-client", component : ListClientComponent , title : "List Client" },

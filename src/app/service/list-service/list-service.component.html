@@ -6,3 +6,31 @@
         </div>
     </div>
 </div>
+
+<div class="container mt-4">
+    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dttrigger" class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">Status</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let Service of Service; let i = index">
+                <td>{{ Service.id }}</td>
+                <td>{{ Service.name }}</td>
+                <td>{{ Service.description }}</td>
+                <td *ngIf="Service.status == '1';else inactive"><span class="badge text-bg-success">Active</span></td>
+                <ng-template #inactive>
+                    <td><span class="badge text-bg-danger">Inactive</span></td>
+                </ng-template>
+                <td>
+                    <button type="button" class="btn btn-danger" (click)="delete(Service.id, i)" ><i class="fa fa-trash"></i></button>
+                    <button type="button" class="btn btn-success mx-2" [routerLink]="['/edit-service', Service.id]"><i class="fa fa-edit"></i></button>
+                </td>
+        </tbody>
+    </table>    
+</div>

@@ -35,7 +35,7 @@ export class ListCategoryComponent implements OnInit{
   }
 
   delete(id: any, i: any) {
-    const confirmDelete = confirm("Are you sure you want to delete this role? This action cannot be undone.");
+    const confirmDelete = confirm("Are you sure you want to delete this Category? This action cannot be undone.");
     if (confirmDelete) {
       this.categoryService.deleteCategory(id).subscribe(() => {
         this.Category.splice(i, 1);

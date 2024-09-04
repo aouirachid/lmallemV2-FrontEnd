@@ -23,6 +23,7 @@ import { EditPermissionComponent } from './admin/edit-permission/edit-permission
 import { EditRoleComponent } from './admin/edit-role/edit-role.component';
 import { AddPermissionToRoleComponent } from './admin/add-permission-to-role/add-permission-to-role.component';
 import { EditCategoryComponent } from './category/edit-category/edit-category.component';
+import { EditServiceComponent } from './service/edit-service/edit-service.component';
 
 export const routes: Routes = [
     { path : "", component : DashboardComponent , title : "Dashboard" },
@@ -40,6 +41,7 @@ export const routes: Routes = [
     { path : "edit-category/:id",component: EditCategoryComponent,title:"Edit Category" },
     { path : "list-service", component : ListServiceComponent , title : "List Service" },
     { path : "add-service", component : AddServiceComponent , title : "Add Service" },
+    { path : "edit-service/:id", component : EditServiceComponent , title : "Edit Service" },
     { path : "list-client", component : ListClientComponent , title : "List Client" },
     { path : "add-client", component : AddClientComponent , title : "Add Client" },
     { path : "list-handy-man", component : ListHandyManComponent , title : "list Handy Man" },

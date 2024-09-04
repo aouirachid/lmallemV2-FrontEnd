@@ -4,12 +4,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { RoleService } from '../../services/role.service';
 import { ToastrService } from 'ngx-toastr';
 import { PermissionService } from '../../services/permission.service';
-import { NgFor, NgIf } from '@angular/common';
+import { CommonModule, NgFor, NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-add-permission-to-role',
   standalone: true,
-  imports: [NgFor,ReactiveFormsModule,NgIf],
+  imports: [NgFor,ReactiveFormsModule,NgIf,CommonModule],
   templateUrl: './add-permission-to-role.component.html',
   styleUrl: './add-permission-to-role.component.css'
 })
@@ -48,8 +48,8 @@ export class AddPermissionToRoleComponent implements OnInit{
     this.permissionService.getPermissions().subscribe((data: any) => {
       console.log('Permissions received:', data);
       this.Permissions = data;
-      this.addCheckboxes(); 
-      this.cdr.detectChanges(); // Manually trigger change detection after adding checkboxes
+      // this.addCheckboxes(); 
+      // this.cdr.detectChanges();  Manually trigger change detection after adding checkboxes
     });
   }
 
@@ -70,7 +70,6 @@ export class AddPermissionToRoleComponent implements OnInit{
     const selectedPermissions = this.updateForm.value.permissions
       .map((checked: boolean, i: number) => checked ? this.Permissions[i].id : null)
       .filter((v: any) => v !== null);
-  
     if (selectedPermissions.length === 0) {
       this.toastr.warning('Please select at least one permission', 'Warning');
       return;

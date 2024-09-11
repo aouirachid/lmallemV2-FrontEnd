@@ -11,20 +11,20 @@ export class CategoryService {
 
   urlApi : string = "http://lmallemv2.test/lmallem-backend/public/api/categories";
   httpHeaders = new HttpHeaders().set('Content-Type','application/json');
-  constructor(private htttpClient : HttpClient) { }
+  constructor(private httpClient : HttpClient) { }
 
   addCategory(data:Category) : Observable<any>{
     let API_URL = `${this.urlApi}`;
-    return this.htttpClient.post(API_URL,data).pipe(catchError(this.handleError));
+    return this.httpClient.post(API_URL,data).pipe(catchError(this.handleError));
   }
 
   getCategories(){
-    return this.htttpClient.get(this.urlApi);
+    return this.httpClient.get(this.urlApi);
   }
 
   getCategory(id: any): Observable<Category> {
     let API_URL = `${this.urlApi}/${id}`;
-    return this.htttpClient.get<{ category: Category }>(API_URL, { headers: this.httpHeaders }).pipe(
+    return this.httpClient.get<{ category: Category }>(API_URL, { headers: this.httpHeaders }).pipe(
       map((res: { category: Category }) => res.category),
       catchError(this.handleError)
     );
@@ -32,12 +32,12 @@ export class CategoryService {
 
   updateCategory(id : any,data:Category ): Observable<any>{
     let API_URL = `${this.urlApi}/${id}`;
-    return this.htttpClient.put(API_URL,data,{headers:this.httpHeaders}).pipe(catchError(this.handleError));
+    return this.httpClient.put(API_URL,data,{headers:this.httpHeaders}).pipe(catchError(this.handleError));
   }
 
   deleteCategory(id : any): Observable<any>{
     let API_URL = `${this.urlApi}/${id}`;
-    return this.htttpClient.delete(API_URL,{headers:this.httpHeaders}).pipe(catchError(this.handleError));
+    return this.httpClient.delete(API_URL,{headers:this.httpHeaders}).pipe(catchError(this.handleError));
   }
 
   

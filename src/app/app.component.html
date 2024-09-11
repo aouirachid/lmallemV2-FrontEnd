@@ -41,82 +41,81 @@
                     </li>
                     <!-- Add more menu items here -->
                     <li class="nav-item">
-                      <a class="nav-link" (click)="toggleSubmenu('category')">
-                        <i class="fa fa-th-large"></i> Category
-                      </a>
-                      <ul class="nav flex-column submenu" [ngClass]="{'show': activeSubmenu === 'category'}">
-                          <li class="nav-item">
-                              <a class="nav-link" routerLink="/list-category" routerLinkActive="active"><i class="fa fa-list"></i> List Category</a>
-                          </li>
-                          <li class="nav-item">
-                              <a class="nav-link" routerLink="/add-category" routerLinkActive="active"><i class="fa fa-plus"></i> Add Category</a>
-                          </li>
-                      </ul>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" (click)="toggleSubmenu('service')">
-                      <i class="fa fa-cog"></i> Service
-                    </a>
-                    <ul class="nav flex-column submenu" [ngClass]="{'show': activeSubmenu === 'service'}">
-                        <li class="nav-item">
-                            <a class="nav-link" routerLink="/list-service" routerLinkActive="active"><i class="fa fa-list"></i> List Service</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" routerLink="/add-service" routerLinkActive="active"><i class="fa fa-plus"></i> Add Service</a>
-                        </li>
-                    </ul>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" (click)="toggleSubmenu('client')">
-                      <i class="fa fa-user"></i> Client
-                    </a>
-                    <ul class="nav flex-column submenu" [ngClass]="{'show': activeSubmenu === 'client'}">
-                        <li class="nav-item">
-                            <a class="nav-link" routerLink="/list-client" routerLinkActive="active"><i class="fa fa-list"></i> List Client</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" routerLink="/add-client" routerLinkActive="active"><i class="fa fa-plus"></i> Add Client</a>
-                        </li>
-                    </ul>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" (click)="toggleSubmenu('handyMan')">
-                      <i class="fa fa-briefcase"></i> Handy Man
-                    </a>
-                    <ul class="nav flex-column submenu" [ngClass]="{'show': activeSubmenu === 'handyMan'}">
-                        <li class="nav-item">
-                            <a class="nav-link" routerLink="/list-handy-man" routerLinkActive="active"><i class="fa fa-list"></i> List Handy Man</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" routerLink="/add-handy-man" routerLinkActive="active"><i class="fa fa-plus"></i> Add Handy Man</a>
-                        </li>
-                    </ul>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" (click)="toggleSubmenu('orders')">
-                      <i class="fa fa-shopping-cart"></i> Orders
-                    </a>
-                    <ul class="nav flex-column submenu" [ngClass]="{'show': activeSubmenu === 'orders'}">
-                        <li class="nav-item">
-                            <a class="nav-link" routerLink="/new-order" routerLinkActive="active"><i class="fa fa-plus"></i> Create new order</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" routerLink="/list-new-order" routerLinkActive="active"><i class="fa fa-list"></i> List new order</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" routerLink="/processing-order" routerLinkActive="active"><i class="fa fa-spinner"></i> Processing order</a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link" routerLink="/delivred-order" routerLinkActive="active"><i class="fa fa-check-circle-o"></i> Delivred order</a>
+                        <a class="nav-link" (click)="toggleSubmenu('category')">
+                            <i class="fa fa-th-large"></i> Category
+                        </a>
+                        <ul class="nav flex-column submenu" [ngClass]="{'show': activeSubmenu === 'category'}">
+                            <li class="nav-item">
+                                <a class="nav-link" routerLink="/list-category" routerLinkActive="active"><i class="fa fa-list"></i> List Category</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" routerLink="/add-category" routerLinkActive="active"><i class="fa fa-plus"></i> Add Category</a>
+                            </li>
+                        </ul>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link" routerLink="/cancel-order" routerLinkActive="active"><i class="fa fa-times"></i> Cancel order</a>
-                  </li>
-                    </ul>
-                  </li>
+                        <a class="nav-link" (click)="toggleSubmenu('service')">
+                        <i class="fa fa-cog"></i> Service
+                        </a>
+                        <ul class="nav flex-column submenu" [ngClass]="{'show': activeSubmenu === 'service'}">
+                            <li class="nav-item">
+                                <a class="nav-link" routerLink="/list-service" routerLinkActive="active"><i class="fa fa-list"></i> List Service</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" routerLink="/add-service" routerLinkActive="active"><i class="fa fa-plus"></i> Add Service</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" (click)="toggleSubmenu('client')">
+                        <i class="fa fa-user"></i> Client
+                        </a>
+                        <ul class="nav flex-column submenu" [ngClass]="{'show': activeSubmenu === 'client'}">
+                            <li class="nav-item">
+                                <a class="nav-link" routerLink="/list-client" routerLinkActive="active"><i class="fa fa-list"></i> List Client</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" routerLink="/add-client" routerLinkActive="active"><i class="fa fa-plus"></i> Add Client</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" (click)="toggleSubmenu('handyMan')">
+                        <i class="fa fa-briefcase"></i> Handy Man
+                        </a>
+                        <ul class="nav flex-column submenu" [ngClass]="{'show': activeSubmenu === 'handyMan'}">
+                            <li class="nav-item">
+                                <a class="nav-link" routerLink="/list-handy-man" routerLinkActive="active"><i class="fa fa-list"></i> List Handy Man</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" routerLink="/add-handy-man" routerLinkActive="active"><i class="fa fa-plus"></i> Add Handy Man</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" (click)="toggleSubmenu('orders')">
+                        <i class="fa fa-shopping-cart"></i> Orders
+                        </a>
+                        <ul class="nav flex-column submenu" [ngClass]="{'show': activeSubmenu === 'orders'}">
+                            <li class="nav-item">
+                                <a class="nav-link" routerLink="/new-order" routerLinkActive="active"><i class="fa fa-plus"></i> Create new order</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" routerLink="/list-new-order" routerLinkActive="active"><i class="fa fa-list"></i> List new order</a>
+                            </li>
+                            <li class="nav-item">
+                            <a class="nav-link" routerLink="/processing-order" routerLinkActive="active"><i class="fa fa-spinner"></i> Processing order</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" routerLink="/delivred-order" routerLinkActive="active"><i class="fa fa-check-circle-o"></i> Delivred order</a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link" routerLink="/cancel-order" routerLinkActive="active"><i class="fa fa-times"></i> Cancel order</a>
+                    </li>
+                        </ul>
+                    </li>
                 </ul>
             </nav>
-
             <!-- Main Content -->
             <main role="main" class="col-12 col-md-9 ml-sm-auto col-lg-10 px-md-4">
                 <!-- Top Bar -->

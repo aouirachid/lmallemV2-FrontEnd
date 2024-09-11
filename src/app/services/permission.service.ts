@@ -12,20 +12,20 @@ export class PermissionService {
   urlApi: string = 'http://lmallemv2.test/lmallem-backend/public/api/permissions';
   httpHeaders = new HttpHeaders().set('Content-Type','application/json');
 
-  constructor(private htttpClient : HttpClient) { }
+  constructor(private httpClient : HttpClient) { }
 
   addPermission(data:Permission) : Observable<any>{
     let API_URL = `${this.urlApi}`;
-    return this.htttpClient.post(API_URL,data).pipe(catchError(this.handleError));
+    return this.httpClient.post(API_URL,data).pipe(catchError(this.handleError));
   }
 
   getPermissions(){
-    return this.htttpClient.get(this.urlApi);
+    return this.httpClient.get(this.urlApi);
   }
 
   getPermission(id: any): Observable<Permission> {
     let API_URL = `${this.urlApi}/${id}`;
-    return this.htttpClient.get<{ permission: Permission }>(API_URL, { headers: this.httpHeaders }).pipe(
+    return this.httpClient.get<{ permission: Permission }>(API_URL, { headers: this.httpHeaders }).pipe(
       map((res: { permission: Permission }) => res.permission),
       catchError(this.handleError)
     );
@@ -33,12 +33,12 @@ export class PermissionService {
 
   updatePermission(id : any,data:Permission ): Observable<any>{
     let API_URL = `${this.urlApi}/${id}`;
-    return this.htttpClient.put(API_URL,data,{headers:this.httpHeaders}).pipe(catchError(this.handleError));
+    return this.httpClient.put(API_URL,data,{headers:this.httpHeaders}).pipe(catchError(this.handleError));
   }
 
   deletePermission(id : any): Observable<any>{
     let API_URL = `${this.urlApi}/${id}`;
-    return this.htttpClient.delete(API_URL,{headers:this.httpHeaders}).pipe(catchError(this.handleError));
+    return this.httpClient.delete(API_URL,{headers:this.httpHeaders}).pipe(catchError(this.handleError));
   }
 
   handleError(error:HttpErrorResponse){

@@ -11,20 +11,20 @@ export class RoleService {
   urlApi: string = 'http://lmallemv2.test/lmallem-backend/public/api/roles';
   httpHeaders = new HttpHeaders().set('Content-Type','application/json');
 
-  constructor(private htttpClient : HttpClient) { }
+  constructor(private httpClient : HttpClient) { }
 
   addRole(data:Role) : Observable<any>{
     let API_URL = `${this.urlApi}`;
-    return this.htttpClient.post(API_URL,data).pipe(catchError(this.handleError));
+    return this.httpClient.post(API_URL,data).pipe(catchError(this.handleError));
   }
 
   getRoles(){
-    return this.htttpClient.get(this.urlApi);
+    return this.httpClient.get(this.urlApi);
   }
 
   getRole(id: any): Observable<Role> {
     let API_URL = `${this.urlApi}/${id}`;
-    return this.htttpClient.get<{ role: Role }>(API_URL, { headers: this.httpHeaders }).pipe(
+    return this.httpClient.get<{ role: Role }>(API_URL, { headers: this.httpHeaders }).pipe(
       map((res: { role: Role }) => res.role),
       catchError(this.handleError)
     );
@@ -32,18 +32,22 @@ export class RoleService {
 
   updateRole(id : any,data:Role ): Observable<any>{
     let API_URL = `${this.urlApi}/${id}`;
-    return this.htttpClient.put(API_URL,data,{headers:this.httpHeaders}).pipe(catchError(this.handleError));
+    return this.httpClient.put(API_URL,data,{headers:this.httpHeaders}).pipe(catchError(this.handleError));
   }
 
   deleteRole(id : any): Observable<any>{
     let API_URL = `${this.urlApi}/${id}`;
-    return this.htttpClient.delete(API_URL,{headers:this.httpHeaders}).pipe(catchError(this.handleError));
+    return this.httpClient.delete(API_URL,{headers:this.httpHeaders}).pipe(catchError(this.handleError));
   }
 
   addPermissionToRole(roleId: number, permissions: number[]): Observable<any> {
     const API_URL = `${this.urlApi}/${roleId}/give-permissions`;
-    return this.htttpClient.post(API_URL, { permissions }, { headers: this.httpHeaders })
+    return this.httpClient.post(API_URL, { permissions }, { headers: this.httpHeaders })
       .pipe(catchError(this.handleError));
+  }
+
+  getRolesWithPermissions(): Observable<any> {
+    return this.httpClient.get(`${this.urlApi}/roles-with-permissions`);
   }
   
   handleError(error:HttpErrorResponse){

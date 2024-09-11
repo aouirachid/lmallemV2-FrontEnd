@@ -24,11 +24,13 @@ import { EditRoleComponent } from './admin/edit-role/edit-role.component';
 import { AddPermissionToRoleComponent } from './admin/add-permission-to-role/add-permission-to-role.component';
 import { EditCategoryComponent } from './category/edit-category/edit-category.component';
 import { EditServiceComponent } from './service/edit-service/edit-service.component';
+import { EditAdminComponent } from './admin/edit-admin/edit-admin.component';
 
 export const routes: Routes = [
     { path : "", component : DashboardComponent , title : "Dashboard" },
     { path : "list-admin", component : ListAdminComponent , title : "List Admin" },
     { path : "add-admin", component : AddAdminComponent , title : "Add Admin" },
+    { path : "edit-admin/:id",component:EditAdminComponent,title:"Edit Admin" },
     { path : "list-role",component: ListRoleComponent,title:"List Role" },
     { path : "add-role",component: AddRoleComponent,title:"Add Role" },
     { path : "edit-role/:id",component:EditRoleComponent,title:"Edit Role" },

@@ -25,10 +25,16 @@ export class ListCategoryComponent implements OnInit{
   ){}
 
   ngOnInit(): void {
-    this.categoryService.getCategories().subscribe((data:any) => {
-      this.Category = data;
-      this.dttrigger.next(null);
-    })
+    this.categoryService.getCategories().subscribe(
+      (data: any) => {
+        this.Category = data;
+        this.dttrigger.next(null);
+      },
+      (error) => {
+        console.error('Error fetching categories:', error);
+        this.toastr.error('Failed to load categories', 'Error');
+      }
+    );
     this.dtOptions = {
       pagingType: 'full_numbers'
     };

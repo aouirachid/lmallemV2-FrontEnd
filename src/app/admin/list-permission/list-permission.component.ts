@@ -26,10 +26,16 @@ export class ListPermissionComponent implements OnInit {
   ){}
 
   ngOnInit(): void {
-    this.permissionService.getPermissions().subscribe((data:any) => {
-      this.Permissions = data;
-      this.dttrigger.next(null);
-    })
+    this.permissionService.getPermissions().subscribe(
+      (data: any) => {
+        this.Permissions = data;
+        this.dttrigger.next(null);
+      },
+      (error) => {
+        console.error('Error fetching permissions:', error);
+        this.toastr.error('Failed to load permissions', 'Error');
+      }
+    );
     this.dtOptions = {
       pagingType: 'full_numbers'
     };

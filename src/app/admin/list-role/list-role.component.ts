@@ -26,10 +26,16 @@ export class ListRoleComponent implements OnInit{
   ){}
 
   ngOnInit(): void {
-    this.roleService.getRoles().subscribe((data:any) => {
-      this.Roles = data;
-      this.dttrigger.next(null);
-    })
+    this.roleService.getRoles().subscribe(
+      (data: any) => {
+        this.Roles = data;
+        this.dttrigger.next(null);
+      },
+      (error) => {
+        console.error('Error fetching roles:', error);
+        this.toastr.error('Failed to load roles', 'Error');
+      }
+    );
     this.dtOptions = {
       pagingType: 'full_numbers'
     };

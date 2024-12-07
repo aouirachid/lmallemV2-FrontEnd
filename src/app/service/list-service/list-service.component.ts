@@ -27,10 +27,16 @@ export class ListServiceComponent implements OnInit{
   ){}
 
   ngOnInit(): void {
-    this.serviceService.getServices().subscribe((data:any) => {
-      this.Service = data;
-      this.dttrigger.next(null);
-    })
+    this.serviceService.getServices().subscribe(
+      (data: any) => {
+        this.Service = data;
+        this.dttrigger.next(null);
+      },
+      (error) => {
+        console.error('Error fetching services:', error);
+        this.toastr.error('Failed to load services', 'Error');
+      }
+    );
     this.dtOptions = {
       pagingType: 'full_numbers'
     };

@@ -25,32 +25,146 @@ import { AddPermissionToRoleComponent } from './admin/add-permission-to-role/add
 import { EditCategoryComponent } from './category/edit-category/edit-category.component';
 import { EditServiceComponent } from './service/edit-service/edit-service.component';
 import { EditAdminComponent } from './admin/edit-admin/edit-admin.component';
+import { AuthGuard } from './guards/auth.guard';
+import { LoginComponent } from './auth/login/login.component';
+import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
+import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 
 export const routes: Routes = [
-    { path : "", component : DashboardComponent , title : "Dashboard" },
-    { path : "list-admin", component : ListAdminComponent , title : "List Admin" },
-    { path : "add-admin", component : AddAdminComponent , title : "Add Admin" },
-    { path : "edit-admin/:id",component:EditAdminComponent,title:"Edit Admin" },
-    { path : "list-role",component: ListRoleComponent,title:"List Role" },
-    { path : "add-role",component: AddRoleComponent,title:"Add Role" },
-    { path : "edit-role/:id",component:EditRoleComponent,title:"Edit Role" },
-    { path : "list-permission",component: ListPermissionComponent,title:"List Permission" },
-    { path : "add-permission",component: AddPermissionComponent,title:"Add Permission" },
-    { path : "edit-permission/:id",component: EditPermissionComponent,title:"Edit Permission" },
-    { path : "add-permission-to-role/:id",component: AddPermissionToRoleComponent,title:"Add Permission To Role" },
-    { path : "list-category", component : ListCategoryComponent , title : "List Category" },
-    { path : "add-category", component : AddCategoryComponent , title : "Add Category" },
-    { path : "edit-category/:id",component: EditCategoryComponent,title:"Edit Category" },
-    { path : "list-service", component : ListServiceComponent , title : "List Service" },
-    { path : "add-service", component : AddServiceComponent , title : "Add Service" },
-    { path : "edit-service/:id", component : EditServiceComponent , title : "Edit Service" },
-    { path : "list-client", component : ListClientComponent , title : "List Client" },
-    { path : "add-client", component : AddClientComponent , title : "Add Client" },
-    { path : "list-handy-man", component : ListHandyManComponent , title : "list Handy Man" },
-    { path : "add-handy-man", component : AddHandyManComponent , title : "Add Handy Man" },
-    { path : "new-order", component : NewOrderComponent , title : "New Order" },
-    { path : "list-new-order", component:ListNewOrderComponent , title: "List New Order" },
-    { path : "processing-order", component : ProcessingOrderComponent , title : "Processing Order" },
-    { path : "delivred-order", component : DelivredOrderComponent , title : "Delivred order" },
-    { path : "cancel-order", component : CancelOrderComponent , title : "Cancel Order"},    
+  {
+    path: '',
+    component: MainLayoutComponent,
+    canActivate: [AuthGuard],
+    children: [
+      // Dashboard routes
+      {
+        path: 'home',
+        component: DashboardComponent,
+        title: 'Dashboard',
+      },
+      {
+        path: 'list-admin',
+        component: ListAdminComponent,
+        title: 'List Admin',
+      },
+      {
+        path: 'add-admin',
+        component: AddAdminComponent,
+        title: 'Add Admin',
+      },
+      {
+        path: 'edit-admin/:id',
+        component: EditAdminComponent,
+        title: 'Edit Admin',
+      },
+      { path: 'list-role', component: ListRoleComponent, title: 'List Role' },
+      { path: 'add-role', component: AddRoleComponent, title: 'Add Role' },
+      {
+        path: 'edit-role/:id',
+        component: EditRoleComponent,
+        title: 'Edit Role',
+      },
+      {
+        path: 'list-permission',
+        component: ListPermissionComponent,
+        title: 'List Permission',
+      },
+      {
+        path: 'add-permission',
+        component: AddPermissionComponent,
+        title: 'Add Permission',
+      },
+      {
+        path: 'edit-permission/:id',
+        component: EditPermissionComponent,
+        title: 'Edit Permission',
+      },
+      {
+        path: 'add-permission-to-role/:id',
+        component: AddPermissionToRoleComponent,
+        title: 'Add Permission To Role',
+      },
+      {
+        path: 'list-category',
+        component: ListCategoryComponent,
+        title: 'List Category',
+      },
+      {
+        path: 'add-category',
+        component: AddCategoryComponent,
+        title: 'Add Category',
+      },
+      {
+        path: 'edit-category/:id',
+        component: EditCategoryComponent,
+        title: 'Edit Category',
+      },
+      {
+        path: 'list-service',
+        component: ListServiceComponent,
+        title: 'List Service',
+      },
+      {
+        path: 'add-service',
+        component: AddServiceComponent,
+        title: 'Add Service',
+      },
+      {
+        path: 'edit-service/:id',
+        component: EditServiceComponent,
+        title: 'Edit Service',
+      },
+      {
+        path: 'list-client',
+        component: ListClientComponent,
+        title: 'List Client',
+      },
+      {
+        path: 'add-client',
+        component: AddClientComponent,
+        title: 'Add Client',
+      },
+      {
+        path: 'list-handy-man',
+        component: ListHandyManComponent,
+        title: 'list Handy Man',
+      },
+      {
+        path: 'add-handy-man',
+        component: AddHandyManComponent,
+        title: 'Add Handy Man',
+      },
+      { path: 'new-order', component: NewOrderComponent, title: 'New Order' },
+      {
+        path: 'list-new-order',
+        component: ListNewOrderComponent,
+        title: 'List New Order',
+      },
+      {
+        path: 'processing-order',
+        component: ProcessingOrderComponent,
+        title: 'Processing Order',
+      },
+      {
+        path: 'delivred-order',
+        component: DelivredOrderComponent,
+        title: 'Delivred order',
+      },
+      {
+        path: 'cancel-order',
+        component: CancelOrderComponent,
+        title: 'Cancel Order',
+      },
+      // Add other child routes for the main layout
+    ],
+  },
+  {
+    path: 'auth',
+    component: AuthLayoutComponent,
+    children: [
+      { path: 'login', component: LoginComponent, title: 'Login' },
+      // Add other child routes for authentication
+    ],
+  },
+  { path: '**', redirectTo: 'auth/login', pathMatch: 'full' }, // Fallback route
 ];

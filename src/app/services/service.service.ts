@@ -1,59 +1,72 @@
-import { Injectable } from '@angular/core';
-import { catchError,map } from 'rxjs';
-import { Observable,throwError } from 'rxjs';
-import { HttpClient,HttpHeaders,HttpErrorResponse } from '@angular/common/http';
+import { Inject, Injectable } from '@angular/core';
+import { catchError, map } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import {
+  HttpClient,
+  HttpHeaders,
+  HttpErrorResponse,
+} from '@angular/common/http';
 import { Service } from '../Models/Service';
+import { ENVIRONMENT } from '../environment.provider';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ServiceService {
-  urlApi: string = 'http://lmallemv2.test/lmallem-backend/public/api/services';
-  httpHeaders = new HttpHeaders().set('Content-Type','application/json');
+  urlApi: string = `${this.env.apiUrl}/services`;
+  httpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
 
-  constructor(private htttpClient : HttpClient) { }
+  constructor(
+    private htttpClient: HttpClient,
+    @Inject(ENVIRONMENT) private env: any
+  ) {}
 
   addService(formData: FormData): Observable<any> {
-    return this.htttpClient.post(this.urlApi, formData)
+    return this.htttpClient
+      .post(this.urlApi, formData)
       .pipe(catchError(this.handleError));
   }
 
-  getServices(){
+  getServices() {
     return this.htttpClient.get(this.urlApi);
   }
 
   getService(id: any): Observable<Service> {
     let API_URL = `${this.urlApi}/${id}`;
-    return this.htttpClient.get<{ service: Service }>(API_URL, { headers: this.httpHeaders }).pipe(
-      map((res: { service: Service }) => res.service),
-      catchError(this.handleError)
-    );
+    return this.htttpClient
+      .get<{ service: Service }>(API_URL, { headers: this.httpHeaders })
+      .pipe(
+        map((res: { service: Service }) => res.service),
+        catchError(this.handleError)
+      );
   }
 
   updateService(id: any, formData: FormData): Observable<any> {
     const API_URL = `${this.urlApi}/${id}`;
-    return this.htttpClient.post(API_URL, formData, {
-      headers: new HttpHeaders({ 'Accept': 'application/json' }),
-      reportProgress: true,
-      observe: 'events'
-    }).pipe(catchError(this.handleError));
+    return this.htttpClient
+      .post(API_URL, formData, {
+        headers: new HttpHeaders({ Accept: 'application/json' }),
+        reportProgress: true,
+        observe: 'events',
+      })
+      .pipe(catchError(this.handleError));
   }
 
-  
-
-  deleteService(id : any): Observable<any>{
+  deleteService(id: any): Observable<any> {
     let API_URL = `${this.urlApi}/${id}`;
-    return this.htttpClient.delete(API_URL,{headers:this.httpHeaders}).pipe(catchError(this.handleError));
+    return this.htttpClient
+      .delete(API_URL, { headers: this.httpHeaders })
+      .pipe(catchError(this.handleError));
   }
 
-  handleError(error:HttpErrorResponse){
+  handleError(error: HttpErrorResponse) {
     let errorMessage = 'Unknown error!';
-    if(error.error instanceof ErrorEvent){
-      errorMessage = `Error: ${error.error.message}`
-  }else{
-    errorMessage = `Error code : ${error.status}\n Message ${error.message}`
-  }
-  console.log(errorMessage);
-  return throwError(errorMessage);  
+    if (error.error instanceof ErrorEvent) {
+      errorMessage = `Error: ${error.error.message}`;
+    } else {
+      errorMessage = `Error code : ${error.status}\n Message ${error.message}`;
+    }
+    console.log(errorMessage);
+    return throwError(errorMessage);
   }
 }

@@ -64,7 +64,7 @@ export class RoleService {
   }
 
   getRolesWithPermissions(): Observable<any> {
-    return this.httpClient.get(`${this.urlApi}/roles-with-permissions`);
+    return this.httpClient.get(`${this.env.apiUrl}/roles-with-permissions`);
   }
 
   handleError(error: HttpErrorResponse) {

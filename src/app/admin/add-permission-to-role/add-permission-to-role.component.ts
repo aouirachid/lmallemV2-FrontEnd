@@ -10,11 +10,11 @@ import { Permission, Role } from '../../Models/Role';
 @Component({
   selector: 'app-add-permission-to-role',
   standalone: true,
-  imports: [NgFor,ReactiveFormsModule,NgIf,CommonModule],
+  imports: [NgFor, ReactiveFormsModule, NgIf, CommonModule],
   templateUrl: './add-permission-to-role.component.html',
-  styleUrl: './add-permission-to-role.component.css'
+  styleUrl: './add-permission-to-role.component.css',
 })
-export class AddPermissionToRoleComponent implements OnInit{
+export class AddPermissionToRoleComponent implements OnInit {
   getId: any;
   role: Role | null = null;
   allPermissions: Permission[] = [];
@@ -34,43 +34,69 @@ export class AddPermissionToRoleComponent implements OnInit{
   ) {
     this.getId = 0;
     this.updateForm = this.formBuilder.group({
-      permissions: new FormArray([])
+      permissions: new FormArray([]),
     });
   }
 
   ngOnInit(): void {
     this.getId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
+    // Fetch role with its permissions
+    this.roleService.getRolesWithPermissions().subscribe({
+      next: (roles) => {
+        const role = roles.find((r: Role) => r.id === this.getId);
 
-    this.roleService.getRole(this.getId).subscribe(
-      (role: Role) => {
-        this.role = role;
-        this.loadPermissions();
+        if (role) {
+          this.role = role;
+          this.populateForm(role.permissions);
+        } else {
+          this.toastr.error('Role not found!');
+        }
       },
-      (err) => {
-        console.log('Error fetching role data:', err);
-        this.toastr.error('Failed to fetch role data');
-      }
-    );
+      error: (err) => {
+        console.error(err);
+        this.toastr.error('Failed to fetch roles!');
+      },
+    });
+    this.loadPermissions();
+  }
+
+  // Populate FormArray with the role's existing permissions
+  populateForm(rolePermissions: Permission[]) {
+    const formArray = this.updateForm.get('permissions') as FormArray;
+    formArray.clear();
+    this.allPermissions.forEach((permission) => {
+      const isAssigned = rolePermissions.some((rp) => rp.id === permission.id);
+      formArray.push(new FormControl(isAssigned));
+    });
+  }
+
+  // Add FormArray controls for all permissions
+  addFormControls() {
+    const formArray = this.updateForm.get('permissions') as FormArray;
+    this.allPermissions.forEach(() => {
+      formArray.push(new FormControl(false));
+    });
   }
 
   loadPermissions(): void {
     this.permissionService.getPermissions().subscribe(
       (permissions: any) => {
-        this.allPermissions = permissions;
+        // Uses 'any' to bypass type issues
+        this.allPermissions = permissions as Permission[]; // Local type assertion
         this.addCheckboxes();
         this.cdr.detectChanges();
       },
       (err) => {
-        console.log('Error fetching permissions:', err);
+        console.error('Error fetching permissions:', err);
         this.toastr.error('Failed to fetch permissions');
       }
     );
   }
 
-
   private addCheckboxes(): void {
     this.allPermissions.forEach((permission) => {
-      const isChecked = this.role?.permissions?.some(p => p.id === permission.id) || false;
+      const isChecked =
+        this.role?.permissions?.some((p) => p.id === permission.id) || false;
       this.permissionsFormArray.push(new FormControl(isChecked));
     });
   }
@@ -80,29 +106,28 @@ export class AddPermissionToRoleComponent implements OnInit{
   }
 
   onUpdate(): void {
-    if (!this.role) {
-      this.toastr.error('No role selected');
-      return;
-    }
-
     const selectedPermissions = this.updateForm.value.permissions
-      .map((checked: boolean, i: number) => checked ? this.allPermissions[i].id : null)
-      .filter((v: any) => v !== null);
+      .map((checked: boolean, index: number) =>
+        checked ? this.allPermissions[index].id : null
+      )
+      .filter((id: number | null) => id !== null);
 
     if (selectedPermissions.length === 0) {
       this.toastr.warning('Please select at least one permission', 'Warning');
       return;
     }
 
-    this.roleService.addPermissionToRole(this.role.id, selectedPermissions).subscribe(
-      (res) => {
-        this.toastr.success('Permissions updated successfully', 'Success');
-        this.router.navigateByUrl('/list-role');
-      },
-      (err) => {
-        this.toastr.error('Failed to update permissions');
-        console.error('Error updating permissions:', err);
-      }
-    );
+    this.roleService
+      .addPermissionToRole(this.getId, selectedPermissions)
+      .subscribe({
+        next: () => {
+          this.toastr.success('Permissions updated successfully!');
+          this.router.navigateByUrl('/list-role');
+        },
+        error: (err) => {
+          console.error('Error updating permissions:', err);
+          this.toastr.error('Failed to update permissions!');
+        },
+      });
   }
 }

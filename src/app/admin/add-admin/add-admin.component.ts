@@ -55,9 +55,12 @@ export class AddAdminComponent implements OnInit{
     
     if (this.adminPanelForm.valid) {
       const formData = new FormData();
-      Object.keys(this.adminPanelForm.value).forEach(key => {
-        formData.append(key, this.adminPanelForm.value[key]);
-      });
+     Object.keys(this.adminPanelForm.value).forEach((key) => {
+       if (this.adminPanelForm.value[key]) {
+         // Append only non-empty values
+         formData.append(key, this.adminPanelForm.value[key]);
+       }
+     });
       
       if (this.selectedFile) {
         formData.append('image', this.selectedFile, this.selectedFile.name);

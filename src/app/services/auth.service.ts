@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import {
   HttpClient,
@@ -16,6 +16,7 @@ import { ENVIRONMENT } from '../environment.provider';
 export class AuthService {
   private currentUserSubject: BehaviorSubject<LoginUser | null>;
   public currentUser: Observable<LoginUser | null>;
+  httpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
   constructor(
     private httpClient: HttpClient,
     @Inject(ENVIRONMENT) private env: any
@@ -43,6 +44,7 @@ export class AuthService {
               token: response.authorisation.token,
             };
             localStorage.setItem('currentUser', JSON.stringify(loginUser));
+            localStorage.setItem('roles', JSON.stringify(response.roles)); // Store roles in localStorage
             this.currentUserSubject.next(loginUser);
             return loginUser;
           }
@@ -75,10 +77,23 @@ export class AuthService {
         })
       );
   }
-
   logout(): Observable<any> {
-    localStorage.removeItem('currentUser');
-    this.currentUserSubject.next(null);
-    return this.httpClient.post<any>(`${this.env.apiUrl}/logout`, {});
+    const token = localStorage.getItem('currentUser'); // Get the token from localStorage
+    let headers = new HttpHeaders();
+
+    if (token) {
+      const parsedToken = JSON.parse(token); // Ensure the token is parsed correctly
+      headers = headers.set('Authorization', `Bearer ${parsedToken.token}`);
+    }
+
+    return this.httpClient
+      .post<any>(`${this.env.apiUrl}/logout`, {}, { headers })
+      .pipe(
+        tap(() => {
+          localStorage.removeItem('currentUser');
+          localStorage.removeItem('roles'); // Clear roles from localStorage
+          this.currentUserSubject.next(null);
+        })
+      );
   }
 }

@@ -126,10 +126,10 @@
                     <div ngbDropdown class="d-flex col order-last">
                         <div class="user-info d-flex align-items-center">
                             <img src="user-image.jpg" alt="User Image" class="user-image">
-                            <span class="ml-2">User Name <br><small>Role</small></span>
+                            <span class="me-3 ">{{username}}<br><small>{{role}}</small></span>
                             <button class="btn btn-light ml-3" ngbDropdownToggle ></button>
                             <div ngbDropdownMenu >
-                                <a ngbDropdownItem href="#"><i class="fa fa-sign-out"></i>  Logout</a> 
+                                <a ngbDropdownItem href="javascript:void(0);" (click)="logout()"><i class="fa fa-sign-out"></i>Logout</a> 
                             </div>
                         </div>
                     </div>

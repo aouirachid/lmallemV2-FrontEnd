@@ -29,6 +29,8 @@ import { AuthGuard } from './guards/auth.guard';
 import { LoginComponent } from './auth/login/login.component';
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
+import { AdminGuard } from './guards/admin.guard';
+import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 
 export const routes: Routes = [
   {
@@ -36,7 +38,7 @@ export const routes: Routes = [
     component: MainLayoutComponent,
     canActivate: [AuthGuard],
     children: [
-      // Dashboard routes
+      { path: 'unauthorized', component: UnauthorizedComponent },
       {
         path: 'home',
         component: DashboardComponent,
@@ -45,20 +47,33 @@ export const routes: Routes = [
       {
         path: 'list-admin',
         component: ListAdminComponent,
+        canActivate: [AdminGuard],
         title: 'List Admin',
       },
       {
         path: 'add-admin',
         component: AddAdminComponent,
+        canActivate: [AdminGuard],
         title: 'Add Admin',
       },
       {
         path: 'edit-admin/:id',
         component: EditAdminComponent,
+        canActivate: [AdminGuard],
         title: 'Edit Admin',
       },
-      { path: 'list-role', component: ListRoleComponent, title: 'List Role' },
-      { path: 'add-role', component: AddRoleComponent, title: 'Add Role' },
+      {
+        path: 'list-role',
+        component: ListRoleComponent,
+        canActivate: [AdminGuard],
+        title: 'List Role',
+      },
+      {
+        path: 'add-role',
+        component: AddRoleComponent,
+        canActivate: [AdminGuard],
+        title: 'Add Role',
+      },
       {
         path: 'edit-role/:id',
         component: EditRoleComponent,

@@ -14,28 +14,42 @@ import { ENVIRONMENT } from '../environment.provider';
 })
 export class RoleService {
   urlApi: string = `${this.env.apiUrl}/roles`;
-  httpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
 
   constructor(
     private httpClient: HttpClient,
     @Inject(ENVIRONMENT) private env: any
   ) {}
+  private getAuthHeaders(isFormData = false): HttpHeaders {
+    const tokenData = localStorage.getItem('currentUser');
+    let headers = new HttpHeaders();
+
+    if (tokenData) {
+      const token = JSON.parse(tokenData).token;
+      headers = headers.set('Authorization', `Bearer ${token}`);
+    }
+
+    if (!isFormData) {
+      headers = headers.set('Content-Type', 'application/json');
+    }
+
+    return headers;
+  }
 
   addRole(data: Role): Observable<any> {
     let API_URL = `${this.urlApi}`;
     return this.httpClient
-      .post(API_URL, data)
+      .post(API_URL, data, { headers: this.getAuthHeaders() })
       .pipe(catchError(this.handleError));
   }
 
   getRoles() {
-    return this.httpClient.get(this.urlApi);
+    return this.httpClient.get(this.urlApi, { headers: this.getAuthHeaders() });
   }
 
   getRole(id: any): Observable<Role> {
     let API_URL = `${this.urlApi}/${id}`;
     return this.httpClient
-      .get<{ role: Role }>(API_URL, { headers: this.httpHeaders })
+      .get<{ role: Role }>(API_URL, { headers: this.getAuthHeaders() })
       .pipe(
         map((res: { role: Role }) => res.role),
         catchError(this.handleError)
@@ -45,26 +59,28 @@ export class RoleService {
   updateRole(id: any, data: Role): Observable<any> {
     let API_URL = `${this.urlApi}/${id}`;
     return this.httpClient
-      .put(API_URL, data, { headers: this.httpHeaders })
+      .put(API_URL, data, { headers: this.getAuthHeaders() })
       .pipe(catchError(this.handleError));
   }
 
   deleteRole(id: any): Observable<any> {
     let API_URL = `${this.urlApi}/${id}`;
     return this.httpClient
-      .delete(API_URL, { headers: this.httpHeaders })
+      .delete(API_URL, { headers: this.getAuthHeaders() })
       .pipe(catchError(this.handleError));
   }
 
   addPermissionToRole(roleId: number, permissions: number[]): Observable<any> {
     const API_URL = `${this.urlApi}/${roleId}/give-permissions`;
     return this.httpClient
-      .post(API_URL, { permissions }, { headers: this.httpHeaders })
+      .post(API_URL, { permissions }, { headers: this.getAuthHeaders() })
       .pipe(catchError(this.handleError));
   }
 
   getRolesWithPermissions(): Observable<any> {
-    return this.httpClient.get(`${this.env.apiUrl}/roles-with-permissions`);
+    return this.httpClient.get(`${this.env.apiUrl}/roles-with-permissions`, {
+      headers: this.getAuthHeaders(),
+    });
   }
 
   handleError(error: HttpErrorResponse) {

@@ -15,17 +15,17 @@
                 </div>
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link" routerLink="/" routerLinkActive="active">
+                        <a class="nav-link" routerLink="/home" routerLinkActive="active">
                             <i class="fa fa-pie-chart"></i> Dashboard
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" >
                         <a class="nav-link" (click)="toggleSubmenu('admin')">
                             <i class="fa fa-users"></i> Admin
                         </a>
-                        <ul class="nav flex-column submenu" [ngClass]="{'show': activeSubmenu === 'admin'}">
+                        <ul class="nav flex-column submenu"  [ngClass]="{'show': activeSubmenu === 'admin'}">
                             <li class="nav-item">
-                                <a class="nav-link" routerLink="/list-role" routerLinkActive="active"><i class="fa fa-shield"></i> Role</a>
+                                <a class="nav-link"  routerLink="/list-role" routerLinkActive="active"><i class="fa fa-shield"></i> Role</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" routerLink="/list-permission" routerLinkActive="active"><i class="fa fa-lock"></i> Permission</a>

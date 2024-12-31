@@ -44,7 +44,7 @@ export class AuthService {
               token: response.authorisation.token,
             };
             localStorage.setItem('currentUser', JSON.stringify(loginUser));
-            localStorage.setItem('roles', JSON.stringify(response.roles)); // Store roles in localStorage
+            localStorage.setItem('roles', JSON.stringify(response.roles));
             this.currentUserSubject.next(loginUser);
             return loginUser;
           }

@@ -14,27 +14,44 @@ import { ENVIRONMENT } from '../environment.provider';
 })
 export class ServiceService {
   urlApi: string = `${this.env.apiUrl}/services`;
-  httpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
 
   constructor(
     private htttpClient: HttpClient,
     @Inject(ENVIRONMENT) private env: any
   ) {}
 
+  private getAuthHeaders(isFormData = false): HttpHeaders {
+    const tokenData = localStorage.getItem('currentUser');
+    let headers = new HttpHeaders();
+
+    if (tokenData) {
+      const token = JSON.parse(tokenData).token;
+      headers = headers.set('Authorization', `Bearer ${token}`);
+    }
+
+    if (!isFormData) {
+      headers = headers.set('Content-Type', 'application/json');
+    }
+
+    return headers;
+  }
+
   addService(formData: FormData): Observable<any> {
     return this.htttpClient
-      .post(this.urlApi, formData)
+      .post(this.urlApi, formData, { headers: this.getAuthHeaders(true) })
       .pipe(catchError(this.handleError));
   }
 
   getServices() {
-    return this.htttpClient.get(this.urlApi);
+    return this.htttpClient.get(this.urlApi, {
+      headers: this.getAuthHeaders(),
+    });
   }
 
   getService(id: any): Observable<Service> {
     let API_URL = `${this.urlApi}/${id}`;
     return this.htttpClient
-      .get<{ service: Service }>(API_URL, { headers: this.httpHeaders })
+      .get<{ service: Service }>(API_URL, { headers: this.getAuthHeaders() })
       .pipe(
         map((res: { service: Service }) => res.service),
         catchError(this.handleError)
@@ -44,18 +61,24 @@ export class ServiceService {
   updateService(id: any, formData: FormData): Observable<any> {
     const API_URL = `${this.urlApi}/${id}`;
     return this.htttpClient
-      .post(API_URL, formData, {
-        headers: new HttpHeaders({ Accept: 'application/json' }),
-        reportProgress: true,
-        observe: 'events',
-      })
+      .post(API_URL, formData, { headers: this.getAuthHeaders(true) })
       .pipe(catchError(this.handleError));
   }
+  // updateService(id: any, formData: FormData): Observable<any> {
+  //   const API_URL = `${this.urlApi}/${id}`;
+  //   return this.htttpClient
+  //     .post(API_URL, formData, {
+  //       headers: new HttpHeaders({ Accept: 'application/json' }),
+  //       reportProgress: true,
+  //       observe: 'events',
+  //     })
+  //     .pipe(catchError(this.handleError));
+  // }
 
   deleteService(id: any): Observable<any> {
     let API_URL = `${this.urlApi}/${id}`;
     return this.htttpClient
-      .delete(API_URL, { headers: this.httpHeaders })
+      .delete(API_URL, { headers: this.getAuthHeaders() })
       .pipe(catchError(this.handleError));
   }
 

@@ -1,4 +1,4 @@
-import { NgClass } from '@angular/common';
+import { NgClass, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -8,7 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-main-layout',
   standalone: true,
-  imports: [RouterOutlet, RouterModule, NgClass, NgbModule],
+  imports: [RouterOutlet, RouterModule, NgClass, NgbModule, NgIf],
   templateUrl: './main-layout.component.html',
   styleUrl: './main-layout.component.css',
 })
@@ -47,6 +47,12 @@ export class MainLayoutComponent implements OnInit {
       sidebar.classList.toggle('active');
       main.classList.toggle('active'); // Adjust main content too
     }
+  }
+
+  //hide unauth
+  isAdmin(): boolean {
+    const roles = JSON.parse(localStorage.getItem('roles') || '[]');
+    return roles.includes('Administrator');
   }
 
   logout(): void {

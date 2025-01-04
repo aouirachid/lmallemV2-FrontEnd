@@ -17,9 +17,10 @@ export class AdminGuard implements CanActivate {
     state: RouterStateSnapshot
   ): boolean {
     const roles = JSON.parse(localStorage.getItem('roles') || '[]'); // Get roles from localStorage
+    const requiredRoles = ['Manager', 'Administrator']; // Roles allowed access
 
-    if (roles.includes(['Manager'])) {
-      return true; // Allow access
+    if (requiredRoles.some((role) => roles.includes(role))) {
+      return true; // Allow access if the user has any of the required roles
     }
 
     // Redirect to unauthorized or home page if not an Administrator

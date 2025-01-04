@@ -1,35 +1,43 @@
 import { NgClass } from '@angular/common';
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RouterModule, NgClass,NgbModule],
+  imports: [RouterOutlet, RouterModule, NgClass, NgbModule],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'lmallem-frontend';
   activeSubmenu: string = '';
   sidebarOpen = false;
+
+  constructor(private authService: AuthService) {}
+
+  ngOnInit(): void {
+    this.authService.checkToken();
+    setInterval(() => {
+      this.authService.checkToken();
+    }, 5000); // Check token every 5 seconds
+  }
 
   //for submenu
   toggleSubmenu(menu: string): void {
     this.activeSubmenu = this.activeSubmenu === menu ? '' : menu;
   }
-  
+
   //for sidebar
   toggleSidebar(): void {
     this.sidebarOpen = !this.sidebarOpen;
     const sidebar = document.getElementById('sidebar') as HTMLElement;
     const main = document.querySelector('main') as HTMLElement;
     if (sidebar) {
-        sidebar.classList.toggle('active');
-        main.classList.toggle('active'); // Adjust main content too
+      sidebar.classList.toggle('active');
+      main.classList.toggle('active'); // Adjust main content too
     }
   }
-
-  
 }

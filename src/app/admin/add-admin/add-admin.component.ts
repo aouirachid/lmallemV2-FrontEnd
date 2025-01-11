@@ -52,16 +52,16 @@ export class AddAdminComponent implements OnInit{
 
   onSubmit(): void {
     console.log(this.adminPanelForm.value);
-    
+
     if (this.adminPanelForm.valid) {
       const formData = new FormData();
-     Object.keys(this.adminPanelForm.value).forEach((key) => {
-       if (this.adminPanelForm.value[key]) {
-         // Append only non-empty values
-         formData.append(key, this.adminPanelForm.value[key]);
-       }
-     });
-      
+      Object.keys(this.adminPanelForm.value).forEach((key) => {
+        if (this.adminPanelForm.value[key]) {
+          // Append only non-empty values
+          formData.append(key, this.adminPanelForm.value[key]);
+        }
+      });
+
       if (this.selectedFile) {
         formData.append('image', this.selectedFile, this.selectedFile.name);
       }
@@ -69,12 +69,14 @@ export class AddAdminComponent implements OnInit{
       this.adminPanelService.addAdminPanel(formData).subscribe({
         next: () => {
           this.toastr.success('Admin Added Successfully', 'Success');
-          this.ngZone.run(() => { this.router.navigateByUrl('/list-admin') });
+          this.ngZone.run(() => {
+            this.router.navigateByUrl('/list-admin');
+          });
         },
         error: (error: any) => {
           console.error('Error adding admin:', error);
           this.toastr.error('Failed to add admin', 'Error');
-        }
+        },
       });
     } else {
       this.toastr.warning('Please fill all required fields', 'Warning');

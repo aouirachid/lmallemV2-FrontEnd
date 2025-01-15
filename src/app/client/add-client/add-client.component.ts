@@ -89,7 +89,7 @@ export class AddClientComponent implements OnInit {
   onSubmit(): void {
     this.clientService.addClient(this.clientForm.value).subscribe(() => {
       this.toastr.success('Client added Successfully!', 'Success');
-      this.ngZone.run(() => this.router.navigateByUrl('/list-category'));
+      this.ngZone.run(() => this.router.navigateByUrl('/list-client'));
     });
   }
 }

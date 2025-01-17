@@ -48,7 +48,7 @@ export class AddClientComponent implements OnInit {
 
   ngOnInit(): void {
     this.roleService.getRoles().subscribe((data: any) => {
-      console.log(data);
+      //console.log(data);
       this.Roles = data;
     });
     this.clientForm = this.formBuilder.group({
@@ -87,9 +87,15 @@ export class AddClientComponent implements OnInit {
   }
 
   onSubmit(): void {
-    this.clientService.addClient(this.clientForm.value).subscribe(() => {
+      this.clientService.addClient(this.clientForm.value).subscribe(() => {
       this.toastr.success('Client added Successfully!', 'Success');
-      this.ngZone.run(() => this.router.navigateByUrl('/list-client'));
+      if (this.clientForm.value.type == 3) {
+        this.ngZone.run(() => this.router.navigateByUrl('/list-client'));
+      } else {
+        this.ngZone.run(() =>
+          this.router.navigateByUrl('/list-client-company')
+        );
+      }
     });
   }
 }

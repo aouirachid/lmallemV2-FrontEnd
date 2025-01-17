@@ -140,9 +140,9 @@ export class AuthService {
   }
 
   checkToken(): void {
-    console.log('Checking token...');
+    //console.log('Checking token...');
     if (this.isTokenExpired()) {
-      console.log('Token expired, logging out...');
+      //console.log('Token expired, logging out...');
       this.logout().subscribe({
         next: () => {
           this.router.navigate(['/auth/login']);

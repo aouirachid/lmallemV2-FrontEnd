@@ -26,16 +26,16 @@ export class AuthInterceptor implements HttpInterceptor {
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
         if (error.status === 401) {
-          console.error('401 Unauthorized detected in interceptor');
+          //console.error('401 Unauthorized detected in interceptor');
           this.authService.logout().subscribe({
             next: () => {
-              console.log('Logged out successfully. Redirecting to login...');
+              //console.log('Logged out successfully. Redirecting to login...');
               this.zone.run(() => {
                 this.router.navigate(['/auth/login']);
               });
             },
             error: (err) => {
-              console.error('Error during logout:', err);
+              //console.error('Error during logout:', err);
               this.zone.run(() => {
                 this.router.navigate(['/auth/login']);
               });

@@ -1,0 +1,73 @@
+<div class="p-3 mb-2 bg-primary bg-gradient text-white">
+    <div class="row">
+        <div class="col-sm-5 col-md-6 fw-bold">Edit Client</div>
+    </div>
+</div>
+
+<div class="container mt-4">
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-6 ">
+            <form [formGroup]="clientForm" (ngSubmit)="onUpdate()" class="row g-3">
+                <div class="col-md-6">
+                    <label for="name" class="form-label">Full Name</label>
+                    <input type="text" class="form-control" id="name" formControlName="name">
+                </div>
+                <div class="col-md-6">
+                    <label for="tel" class="form-label">Tel</label>
+                    <input type="text" class="form-control" id="tel" formControlName="phone">
+                </div>
+                <div class="col-md--12">
+                    <label for="email" class="form-label">E-Mail</label>
+                    <input type="email" class="form-control" id="email" formControlName="email">
+                </div>
+                <div class="col-md-6">
+                    <label for="city" class="form-label">City</label>
+                    <input type="text" class="form-control" id="city" formControlName="city">
+                </div>
+                <div class="col-md-6">
+                    <label for="inputType" class="form-label">Type</label>
+                    <select id="inputState" class="form-select" formControlName="type">
+                        <option value="3">Client</option>
+                        <option value="4">Company</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" class="form-control" id="username" formControlName="username">
+                </div>
+                <div class="col-md-6">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" formControlName="password">
+                </div>
+                <div class="col-md-12" *ngIf="clientForm.get('type')?.value === '4'">
+                    <label for="denomination" class="form-label">Denomination</label>
+                    <input type="text" class="form-control" id="denomination"formControlName="denomination"/>
+                </div>
+                <div class="col-md-6" *ngIf="clientForm.get('type')?.value === '4'">
+                    <label for="rc" class="form-label">RC</label>
+                    <input type="number" class="form-control" id="rc" formControlName="rc" />
+                </div>
+                <div class="col-md-6" *ngIf="clientForm.get('type')?.value === '4'">
+                    <label for="ice" class="form-label">ICE</label>
+                    <input type="number" class="form-control" id="ice" formControlName="ice" />
+                </div>
+                <div class="col-md-6">
+                    <label for="role" class="form-label" >Role</label>
+                    <select name="role" id="role" class="form-select" formControlName="role">
+                        <option *ngFor="let role of Roles" [value]="role.id">{{role.name}}</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="name" class="form-label" >Status</label>
+                    <select name="status" id="status" class="form-select" formControlName="status">
+                        <option value="1">Active</option>
+                        <option value="2">Inactive</option>
+                    </select>
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

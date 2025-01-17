@@ -44,14 +44,11 @@ export class ClientService {
     return this.httpClient.get(this.urlApi, { headers: this.getAuthHeaders() });
   }
 
-  getClient(id: any): Observable<Client> {
+  getClient(id: any): Observable<any> {
     let API_URL = `${this.urlApi}/${id}`;
     return this.httpClient
-      .get<{ client: Client }>(API_URL, { headers: this.getAuthHeaders() })
-      .pipe(
-        map((res: { client: Client }) => res.client),
-        catchError(this.handleError)
-      );
+      .get(API_URL, { headers: this.getAuthHeaders() })
+      .pipe(catchError(this.handleError));
   }
 
   updateClient(id: any, data: Client): Observable<any> {

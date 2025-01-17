@@ -15,6 +15,9 @@
                 <th scope="col">Name</th>
                 <th scope="col">Phone</th>
                 <th scope="col">City</th>
+                <th scope="col">Denomination</th>
+                <th scope="col">Rc</th>
+                <th scope="col">ICE</th>
                 <th scope="col">Status</th>
                 <th scope="col">Action</th>
             </tr>
@@ -25,6 +28,9 @@
                 <td>{{ Client.user.name }}</td>
                 <td>{{ Client.user.phone }}</td>
                 <td>{{ Client.user.city }}</td>
+                <td>{{ Client.denomination }}</td>
+                <td>{{ Client.rc}}</td>
+                <td>{{ Client.ice}}</td>
                 <td *ngIf="Client.status == '1';else inactive"><span class="badge text-bg-success">Active</span></td>
                 <ng-template #inactive>
                     <td><span class="badge text-bg-danger">Inactive</span></td>

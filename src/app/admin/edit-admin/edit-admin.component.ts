@@ -42,7 +42,7 @@ export class EditAdminComponent implements OnInit{
     this.getId = this.activatedRouter.snapshot.paramMap.get('id');
     this.adminPanelService.getAdminPanel(this.getId).subscribe(
       (res: any) => {
-        //console.log('Received admin data:', res);
+        console.log('Received admin data:', res);
         this.updateForm.patchValue({
           name: res.adminPanel.user.name,
           phone: res.adminPanel.user.phone,

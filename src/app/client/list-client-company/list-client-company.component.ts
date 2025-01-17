@@ -1,20 +1,20 @@
-import { NgFor, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { DataTablesModule } from 'angular-datatables';
-import { ClientService } from '../../services/client.service';
-import { ToastrService } from 'ngx-toastr';
 import { Config } from 'datatables.net';
 import { Subject } from 'rxjs';
+import { ClientService } from '../../services/client.service';
+import { ToastrService } from 'ngx-toastr';
+import { RouterModule } from '@angular/router';
+import { NgFor, NgIf } from '@angular/common';
+import { DataTablesModule } from 'angular-datatables';
 
 @Component({
-  selector: 'app-list-client',
+  selector: 'app-list-client-company',
   standalone: true,
   imports: [RouterModule, NgFor, NgIf, DataTablesModule],
-  templateUrl: './list-client.component.html',
-  styleUrl: './list-client.component.css',
+  templateUrl: './list-client-company.component.html',
+  styleUrl: './list-client-company.component.css',
 })
-export class ListClientComponent implements OnInit {
+export class ListClientCompanyComponent implements OnInit {
   Clients: any = [];
   dtOptions: Config = {};
   dttrigger: Subject<any> = new Subject<any>();
@@ -27,9 +27,8 @@ export class ListClientComponent implements OnInit {
     this.clientService.getClients().subscribe(
       (data: any) => {
         const filteredClients = data.filter(
-          (client: any) => client.user.type == 3
+          (client: any) => client.user.type == 4
         );
-        // console.log(filteredClients);
         if (filteredClients.length > 0) {
           this.Clients = filteredClients;
           this.dttrigger.next(null);

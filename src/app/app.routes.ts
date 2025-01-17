@@ -31,6 +31,8 @@ import { MainLayoutComponent } from './layouts/main-layout/main-layout.component
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 import { AdminGuard } from './guards/admin.guard';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
+import { EditClientComponent } from './client/edit-client/edit-client.component';
+import { ListClientCompanyComponent } from './client/list-client-company/list-client-company.component';
 
 export const routes: Routes = [
   {
@@ -134,10 +136,21 @@ export const routes: Routes = [
         component: ListClientComponent,
         title: 'List Client',
       },
+
+      {
+        path: 'list-client-company',
+        component: ListClientCompanyComponent,
+        title: 'List Client Company',
+      },
       {
         path: 'add-client',
         component: AddClientComponent,
         title: 'Add Client',
+      },
+      {
+        path: 'edit-client/:id',
+        component: EditClientComponent,
+        title: 'Edit Client',
       },
       {
         path: 'list-handy-man',

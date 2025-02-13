@@ -3,7 +3,17 @@
     width: 315px;
     transition: all 0.3s;
     min-height: 100vh;
-    /* Adjusted for responsiveness */
+    position: fixed; /* Make the sidebar fixed */
+    top: 0; /* Align to the top */
+    left: 0; /* Align to the left */
+    z-index: 1000; /* Ensure it's above other content */
+    overflow-y: auto; /* Add scroll if content overflows */
+}
+
+/* Adjust main content to account for the fixed sidebar */
+main {
+    margin-left: 315px; /* Match the width of the sidebar */
+    transition: margin-left 0.3s; /* Smooth transition */
 }
 
 
@@ -15,20 +25,21 @@
 }
 
 @media (max-width: 1600px) {
-    /* Show the toggle button and make sidebar off-canvas */
-    .navbar-toggler {
+.navbar-toggler {
         display: block;
     }
-    
+
     #sidebar {
-        position: fixed;
         left: -315px; /* Start off-screen */
-        top: 0;
-        height: 100vh;
     }
-    
+
     #sidebar.active {
         left: 0; /* Bring sidebar on-screen */
+    }
+
+    /* Adjust main content when sidebar is active */
+    main{
+        margin-left: 0; /* Remove margin when sidebar is hidden */
     }
 
     /* Adjust main content when sidebar is active */

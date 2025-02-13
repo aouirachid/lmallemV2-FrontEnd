@@ -51,7 +51,7 @@ export class AddAdminComponent implements OnInit{
   }
 
   onSubmit(): void {
-    console.log(this.adminPanelForm.value);
+    //console.log(this.adminPanelForm.value);
 
     if (this.adminPanelForm.valid) {
       const formData = new FormData();

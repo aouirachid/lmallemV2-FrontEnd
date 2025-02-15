@@ -28,7 +28,7 @@ export class ListAdminComponent implements OnInit{
   ngOnInit(): void {
     this.adminPanelservice.getAdminPanels().subscribe(
       (data: any) => {
-        console.log(data.user);
+        //console.log(data.user);
         this.adminPanel = data;
         this.dttrigger.next(null);
       },

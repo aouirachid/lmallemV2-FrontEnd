@@ -33,6 +33,7 @@ import { AdminGuard } from './guards/admin.guard';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 import { EditClientComponent } from './client/edit-client/edit-client.component';
 import { ListClientCompanyComponent } from './client/list-client-company/list-client-company.component';
+import { EditHandyManComponent } from './handyMan/edit-handy-man/edit-handy-man.component';
 
 export const routes: Routes = [
   {
@@ -161,6 +162,11 @@ export const routes: Routes = [
         path: 'add-handy-man',
         component: AddHandyManComponent,
         title: 'Add Handy Man',
+      },
+      {
+        path: 'edit-handy-man/:id',
+        component: EditHandyManComponent,
+        title: 'Edit Handy Man',
       },
       { path: 'new-order', component: NewOrderComponent, title: 'New Order' },
       {

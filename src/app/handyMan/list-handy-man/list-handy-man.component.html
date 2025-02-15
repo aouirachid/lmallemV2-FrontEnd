@@ -6,3 +6,35 @@
         </div>
     </div>
 </div>
+
+<div class="container mt-4">
+    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dttrigger" class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Name</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Field</th>
+                <th scope="col">City</th>
+                <th scope="col">Status</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let handyMan of HandyMen; let i = index">
+                <td>{{ handyMan.id }}</td>
+                <td>{{ handyMan.user.name }}</td>
+                <td>{{ handyMan.user.phone }}</td>
+                <td>{{ handyMan.specializedField }}</td>
+                <td>{{ handyMan.user.city }}</td>
+                <td *ngIf="handyMan.status == '1';else inactive"><span class="badge text-bg-success">Active</span></td>
+                <ng-template #inactive>
+                    <td><span class="badge text-bg-danger">Inactive</span></td>
+                </ng-template>
+                <td>
+                    <button type="button" class="btn btn-danger" (click)="delete(handyMan.id, i)" ><i class="fa fa-trash"></i></button>
+                    <button type="button" class="btn btn-success mx-2" [routerLink]="['/edit-handy-man', handyMan.id]"><i class="fa fa-edit"></i></button>
+                </td>
+        </tbody>
+    </table>    
+</div>

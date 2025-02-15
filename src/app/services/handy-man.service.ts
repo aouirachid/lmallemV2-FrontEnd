@@ -53,10 +53,10 @@ export class HandyManService {
       .pipe(catchError(this.handleError));
   }
 
-  updateHandyMan(id: any, data: any): Observable<any> {
+  updateHandyMan(id: any, formData: FormData): Observable<any> {
     let API_URL = `${this.urlApi}/${id}`;
     return this.httpClient
-      .put(API_URL, data, { headers: this.getAuthHeaders() })
+      .post(API_URL, formData, { headers: this.getAuthHeaders(true) })
       .pipe(catchError(this.handleError));
   }
 

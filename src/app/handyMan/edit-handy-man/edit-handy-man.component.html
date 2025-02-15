@@ -1,0 +1,120 @@
+<div class="p-3 mb-2 bg-primary bg-gradient text-white">
+    <div class="row">
+        <div class="col-sm-5 col-md-6 fw-bold">Edit Handy man</div>
+    </div>
+</div>
+
+<div class="container mt-4">
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-6 ">
+            <form [formGroup]="handyManForm" (ngSubmit)="onUpdate()" class="row g-3">
+                <div class="col-md-6">
+                    <label for="name" class="form-label">Full Name</label>
+                    <input type="text" class="form-control" id="name" formControlName="name">
+                </div>
+                <div class="col-md-6">
+                    <label for="tel" class="form-label">Tel</label>
+                    <input type="text" class="form-control" id="tel" formControlName="phone">
+                </div>
+                <div class="col-md--12">
+                    <label for="email" class="form-label">E-Mail</label>
+                    <input type="email" class="form-control" id="email" formControlName="email">
+                </div>
+                <div class="col-md-6">
+                    <label for="city" class="form-label">City</label>
+                    <input type="text" class="form-control" id="city" formControlName="city">
+                </div>
+                <div class="col-md-6">
+                    <label for="type" class="form-label">Type</label>
+                    <select id="type" class="form-select" formControlName="type">
+                        <option value="5">Handy Man</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="ice" class="form-label">Company Identifier (ICE)</label>
+                    <input type="text" class="form-control" id="ice" formControlName="ice">
+                </div>
+                <div class="col-md-6">
+                    <label for="inputType" class="form-label">Specialized Field</label>
+                    <select name="specializedField" id="specializedField" class="form-select" formControlName="specializedField">
+                        <option value="1">Software Development</option>
+                        <option value="2">Network Administration</option>
+                        <option value="3">Graphic Design</option>
+                        <option value="4">Marketing</option>
+                        <option value="5">Retail Management</option>
+                        <option value="6">Aircraft Maintenance</option>
+                        <option value="7">Avionics</option>
+                        <option value="8">Food Processing</option>
+                        <option value="9">Quality Control</option>
+                        <option value="10">Film Production</option>
+                        <option value="11">Sound Engineering</option>
+                        <option value="12">Civil Engineering</option>
+                        <option value="13">Surveying</option>
+                        <option value="14">Welding</option>
+                        <option value="15">Metal Fabrication</option>
+                        <option value="16">Hotel Management</option>
+                        <option value="17">Culinary Arts</option>
+                        <option value="18">Fashion Design</option>
+                        <option value="19">Leather Craftsmanship</option>
+                        <option value="20">Automotive Mechanics</option>
+                        <option value="21">Auto Body Repair</option>
+                        <option value="22">Consumer Electronics Repair</option>
+                        <option value="23">Industrial Electronics</option>
+                        <option value="24">Solar Energy Systems</option>
+                        <option value="25">Wind Energy Technology</option>
+                        <option value="26">Crop Production</option>
+                        <option value="27">Agricultural Machinery Operation</option>
+                        <option value="28">Building Electricity</option>
+                        <option value="29">Plumbing</option>
+                        <option value="30">Masonry</option>
+                        <option value="31">Building Painting</option>
+                        <option value="32">Locksmith</option>
+                        <option value="33">Carpentry</option>
+                        <option value="34">General Handyman Services</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="accountNumber" class="form-label">Account Number (RIB)</label>
+                    <input type="text" class="form-control" id="accountNumber" formControlName="accountNumber">
+                </div>
+                <div class="col-md-6">
+                    <label for="bankName" class="form-label">Bank Name</label>
+                    <input type="text" class="form-control" id="bankName" formControlName="bankName">
+                </div>
+                <div class="col-md-6">
+                    <label for="selfEmployedCard" class="form-label">Self Employed Card</label>
+                    <input type="file" class="form-control" id="selfEmployedCard" (change)="onFileSelected($event,'selfEmployedCard')" accept="image/*">
+                    <img *ngIf="currentselfEmployedCardUrl" [src]="currentselfEmployedCardUrl" alt="Current Image" class="mt-2" style="max-width: 100%; height: auto;">
+                </div>
+                <div class="col-md-6">
+                    <label for="Anthropometric" class="form-label">Anthropometric</label>
+                    <input type="file" class="form-control" id="Anthropometric" (change)="onFileSelected($event,'Anthropometric')" accept="image/*">
+                    <img *ngIf="currentAnthropometricUrl" [src]="currentAnthropometricUrl" alt="Current Image" class="mt-2" style="max-width: 100%; height: auto;">
+                </div>
+                <div class="col-md-12">
+                    <label for="diploma" class="form-label">Diploma</label>
+                    <input type="file" class="form-control" id="diploma" (change)="onFileSelected($event,'diploma')" accept="image/*">
+                    <img *ngIf="currentdiplomaUrl" [src]="currentdiplomaUrl" alt="Current Image" class="mt-2" style="max-width: 100%; height: auto;">
+                </div>
+                <div class="col-md-6">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" class="form-control" id="username" formControlName="username">
+                </div>
+                <div class="col-md-6">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" formControlName="password">
+                </div>
+                <div class="col-md-6">
+                    <label for="name" class="form-label" >Status</label>
+                    <select name="status" id="status" class="form-select" formControlName="status">
+                        <option value="1">Active</option>
+                        <option value="2">Inactive</option>
+                    </select>
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

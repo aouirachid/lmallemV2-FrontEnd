@@ -1,0 +1,9 @@
+.form-select {
+    max-height: 200px;
+    overflow-y: auto;
+  }
+  
+  option:hover {
+    background-color: #f8f9fa;
+    cursor: pointer;
+  }

@@ -42,7 +42,7 @@ export class ServiceService {
       .pipe(catchError(this.handleError));
   }
 
-  getServices() {
+  getServices(): Observable<any> {
     return this.htttpClient.get(this.urlApi, {
       headers: this.getAuthHeaders(),
     });

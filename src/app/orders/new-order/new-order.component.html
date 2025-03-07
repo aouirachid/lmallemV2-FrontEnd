@@ -3,3 +3,84 @@
         <div class="col-sm-5 col-md-6 fw-bold">New Order</div>
     </div>
 </div>
+
+<div class="container mt-4">
+    <div class="row justify-content-center mt-5">
+      <div class="col-md-8">
+        <form [formGroup]="orderForm" (ngSubmit)="onSubmit()" class="row g-3">
+          <!-- Order Number -->
+          <div class="col-md-6">
+            <label for="orderNumber" class="form-label">Order Number</label>
+            <input type="text" class="form-control" id="orderNumber" 
+                   formControlName="orderNumber" [readOnly]="true">
+          </div>
+  
+          <!-- Service Selection -->
+          <div class="col-md-6">
+            <label for="serviceSearch" class="form-label">Service</label>
+            <input type="text" class="form-control mb-2" placeholder="Search services..." 
+                   (input)="onServiceSearch($event)">
+            <select class="form-select" formControlName="serviceId" size="5">
+              <option *ngFor="let service of filteredServices" [value]="service.id">
+                {{ service.name }} ({{ service.category?.estimatedPrice | currency }})
+              </option>
+            </select>
+          </div>
+  
+          <!-- Order Price -->
+          <div class="col-md-6">
+            <label for="orderPrice" class="form-label">Order Price</label>
+            <input type="number" class="form-control" id="orderPrice" 
+                   formControlName="orderPrice">
+          </div>
+  
+          <!-- Order Description -->
+          <div class="col-12">
+            <label for="orderDescription" class="form-label">Order Description</label>
+            <textarea class="form-control" id="orderDescription" 
+                      formControlName="description" rows="3"></textarea>
+          </div>
+  
+          <!-- Date/Time Inputs -->
+          <div class="col-md-6">
+            <label for="orderDate" class="form-label">Order Date & Time</label>
+            <input type="datetime-local" class="form-control" id="orderDate" 
+                   formControlName="orderDate">
+          </div>
+          <div class="col-md-6">
+            <label for="deliveredDate" class="form-label">Delivered Date & Time</label>
+            <input type="datetime-local" class="form-control" id="deliveredDate" 
+                   formControlName="deliveredDate">
+          </div>
+  
+          <!-- Client Selection -->
+          <div class="col-md-6">
+            <label for="clientSearch" class="form-label">Client</label>
+            <input type="text" class="form-control mb-2" placeholder="Search clients..." 
+                   (input)="onClientSearch($event)">
+            <select class="form-select" formControlName="clientId" size="5">
+              <option *ngFor="let client of filteredClients" [value]="client.id">
+                {{ client.name }} - {{ client.phone }}
+              </option>
+            </select>
+          </div>
+  
+          <!-- Handy Man Selection -->
+          <div class="col-md-6">
+            <label for="handyManSearch" class="form-label">Handy Man</label>
+            <input type="text" class="form-control mb-2" placeholder="Search handy men..." 
+                   (input)="onHandyManSearch($event)">
+            <select class="form-select" formControlName="handyManId" size="5">
+              <option *ngFor="let handyMan of filteredHandyMans" [value]="handyMan.id">
+                {{ handyMan.name }} - {{ handyMan.phone }}
+              </option>
+            </select>
+          </div>
+  
+          <div class="col-12">
+            <button type="submit" class="btn btn-primary">Create Order</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>

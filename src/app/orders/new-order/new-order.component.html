@@ -5,82 +5,117 @@
 </div>
 
 <div class="container mt-4">
-    <div class="row justify-content-center mt-5">
-      <div class="col-md-8">
-        <form [formGroup]="orderForm" (ngSubmit)="onSubmit()" class="row g-3">
-          <!-- Order Number -->
-          <div class="col-md-6">
-            <label for="orderNumber" class="form-label">Order Number</label>
-            <input type="text" class="form-control" id="orderNumber" 
-                   formControlName="orderNumber" [readOnly]="true">
+  <div class="row justify-content-center mt-5">
+    <div class="col-md-8">
+      <form [formGroup]="orderForm" (ngSubmit)="onSubmit()" class="row g-4">
+        <!-- Order Number -->
+        <div class="col-md-12">
+          <mat-form-field appearance="outline" class="w-100 mb-3">
+            <mat-label class="fw-bold">Order Number</mat-label>
+            <input matInput formControlName="orderNumber" readonly class="border-secondary bg-light">
+          </mat-form-field>
+        </div>
+
+        <!-- Service Selection -->
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="form-label fw-bold mb-2">Service</label>
+            <mat-form-field appearance="outline" class="w-100">
+              <input type="text" matInput formControlName="serviceId" [matAutocomplete]="autoService" class="border rounded-2">
+              <mat-autocomplete #autoService="matAutocomplete" (optionSelected)="onServiceSelect($event)" [displayWith]="displayService.bind(this)">
+                <mat-option *ngFor="let service of filteredServices | async" [value]="service.id">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <span>{{ service.name }}</span>
+                    <span class="text-muted">{{ service.category?.estimatedPrice | currency }}</span>
+                  </div>
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
           </div>
-  
-          <!-- Service Selection -->
-          <div class="col-md-6">
-            <label for="serviceSearch" class="form-label">Service</label>
-            <input type="text" class="form-control mb-2" placeholder="Search services..." 
-                   (input)="onServiceSearch($event)">
-            <select class="form-select" formControlName="serviceId" size="5">
-              <option *ngFor="let service of filteredServices" [value]="service.id">
-                {{ service.name }} ({{ service.category?.estimatedPrice | currency }})
-              </option>
-            </select>
+        </div>
+
+        <!-- Order Price -->
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="form-label fw-bold mb-2">Order Price</label>
+            <mat-form-field appearance="outline" class="w-100">
+              <input matInput type="number" formControlName="orderPrice" class="border rounded-2">
+            </mat-form-field>
           </div>
-  
-          <!-- Order Price -->
-          <div class="col-md-6">
-            <label for="orderPrice" class="form-label">Order Price</label>
-            <input type="number" class="form-control" id="orderPrice" 
-                   formControlName="orderPrice">
+        </div>
+
+        <!-- Order Description -->
+        <div class="col-12">
+          <div class="form-group">
+            <label class="form-label fw-bold mb-2">Order Description</label>
+            <mat-form-field appearance="outline" class="w-100">
+              <textarea matInput formControlName="description" rows="3" class="border rounded-2"></textarea>
+            </mat-form-field>
+            
           </div>
-  
-          <!-- Order Description -->
-          <div class="col-12">
-            <label for="orderDescription" class="form-label">Order Description</label>
-            <textarea class="form-control" id="orderDescription" 
-                      formControlName="description" rows="3"></textarea>
+        </div>
+
+        <!-- Date/Time Inputs -->               
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="form-label fw-bold mb-2">Order Date & Time</label>
+            <mat-form-field appearance="outline" class="w-100">
+              <input matInput [matDatepicker]="orderDatePicker" formControlName="orderDate" placeholder="Choose date" class="border rounded-2">
+              <mat-datepicker-toggle matSuffix [for]="orderDatePicker">
+                <i class="bi bi-calendar"></i> 
+              </mat-datepicker-toggle>
+              <mat-datepicker #orderDatePicker></mat-datepicker>
+            </mat-form-field>
           </div>
-  
-          <!-- Date/Time Inputs -->
-          <div class="col-md-6">
-            <label for="orderDate" class="form-label">Order Date & Time</label>
-            <input type="datetime-local" class="form-control" id="orderDate" 
-                   formControlName="orderDate">
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="form-label fw-bold mb-2">Delivered Date & Time</label>
+            <mat-form-field appearance="outline" class="w-100">
+              <input matInput [matDatepicker]="deliveredDatePicker" formControlName="deliveredDate" placeholder="Choose date" class="border rounded-2">
+              <mat-datepicker-toggle matSuffix [for]="deliveredDatePicker">
+                <i class="bi bi-calendar"></i> 
+              </mat-datepicker-toggle>
+              <mat-datepicker #deliveredDatePicker></mat-datepicker>
+            </mat-form-field>
           </div>
-          <div class="col-md-6">
-            <label for="deliveredDate" class="form-label">Delivered Date & Time</label>
-            <input type="datetime-local" class="form-control" id="deliveredDate" 
-                   formControlName="deliveredDate">
+        </div>
+
+        <!-- Client Selection -->
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="form-label fw-bold mb-2">Client</label>
+            <mat-form-field appearance="outline" class="w-100">
+              <input type="text" matInput formControlName="clientId" placeholder="Search clients..." [matAutocomplete]="autoClient" class="border rounded-2">
+              <mat-autocomplete #autoClient="matAutocomplete" [displayWith]="displayClient.bind(this)">
+                <mat-option *ngFor="let client of filteredClients | async" [value]="client.id">
+                  {{ client.user.name }} : {{ client.user.phone }}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
           </div>
-  
-          <!-- Client Selection -->
-          <div class="col-md-6">
-            <label for="clientSearch" class="form-label">Client</label>
-            <input type="text" class="form-control mb-2" placeholder="Search clients..." 
-                   (input)="onClientSearch($event)">
-            <select class="form-select" formControlName="clientId" size="5">
-              <option *ngFor="let client of filteredClients" [value]="client.id">
-                {{ client.name }} - {{ client.phone }}
-              </option>
-            </select>
+        </div>
+
+        <!-- Handy Man Selection -->
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="form-label fw-bold mb-2">Handy Man</label>
+            <mat-form-field appearance="outline" class="w-100">
+              <input type="text" matInput formControlName="handyManId" placeholder="Search handy Man.." [matAutocomplete]="autoHandyMan" class="border rounded-2">
+              <mat-autocomplete #autoHandyMan="matAutocomplete" [displayWith]="displayHandyMan.bind(this)">
+                <mat-option *ngFor="let handyMan of filteredHandyMans | async" [value]="handyMan.id">
+                  {{ handyMan.user.name }} : {{ handyMan.user.phone }}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
           </div>
-  
-          <!-- Handy Man Selection -->
-          <div class="col-md-6">
-            <label for="handyManSearch" class="form-label">Handy Man</label>
-            <input type="text" class="form-control mb-2" placeholder="Search handy men..." 
-                   (input)="onHandyManSearch($event)">
-            <select class="form-select" formControlName="handyManId" size="5">
-              <option *ngFor="let handyMan of filteredHandyMans" [value]="handyMan.id">
-                {{ handyMan.name }} - {{ handyMan.phone }}
-              </option>
-            </select>
-          </div>
-  
-          <div class="col-12">
-            <button type="submit" class="btn btn-primary">Create Order</button>
-          </div>
-        </form>
-      </div>
+        </div>
+
+        <div class="col-12">
+          <button mat-raised-button color="primary" type="submit" class="btn btn-primary">Create Order</button>
+        </div>
+      </form>
     </div>
   </div>
+</div>

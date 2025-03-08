@@ -1,9 +1,11 @@
-.form-select {
-    max-height: 200px;
-    overflow-y: auto;
-  }
-  
-  option:hover {
-    background-color: #f8f9fa;
-    cursor: pointer;
-  }
+input,textarea,mat-label {
+  color: rgb(0, 0, 0) !important;
+}
+.td-picker {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  border-radius: 0.5rem;
+}
+
+.td-calendar-header {
+  background-color: #f8f9fa;
+}

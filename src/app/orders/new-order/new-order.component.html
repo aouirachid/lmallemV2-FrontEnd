@@ -21,7 +21,7 @@
           <div class="form-group">
             <label class="form-label fw-bold mb-2">Service</label>
             <mat-form-field appearance="outline" class="w-100">
-              <input type="text" matInput formControlName="serviceId" [matAutocomplete]="autoService" class="border rounded-2">
+              <input type="text" matInput formControlName="service_id" [matAutocomplete]="autoService" class="border rounded-2">
               <mat-autocomplete #autoService="matAutocomplete" (optionSelected)="onServiceSelect($event)" [displayWith]="displayService.bind(this)">
                 <mat-option *ngFor="let service of filteredServices | async" [value]="service.id">
                   <div class="d-flex justify-content-between align-items-center">
@@ -43,13 +43,21 @@
             </mat-form-field>
           </div>
         </div>
-
+        <!-- Order Location -->
+        <div class="col-md-12">
+          <div class="form-group">
+            <label class="form-label fw-bold mb-2">Order location</label>
+            <mat-form-field appearance="outline" class="w-100">
+              <input matInput type="text" formControlName="orderLocation" class="border rounded-2">
+            </mat-form-field>
+          </div>
+        </div>
         <!-- Order Description -->
         <div class="col-12">
           <div class="form-group">
             <label class="form-label fw-bold mb-2">Order Description</label>
             <mat-form-field appearance="outline" class="w-100">
-              <textarea matInput formControlName="description" rows="3" class="border rounded-2"></textarea>
+              <textarea matInput formControlName="orderDescription" rows="3" class="border rounded-2"></textarea>
             </mat-form-field>
             
           </div>
@@ -73,7 +81,7 @@
           <div class="form-group">
             <label class="form-label fw-bold mb-2">Delivered Date & Time</label>
             <mat-form-field appearance="outline" class="w-100">
-              <input matInput [matDatepicker]="deliveredDatePicker" formControlName="deliveredDate" placeholder="Choose date" class="border rounded-2">
+              <input matInput [matDatepicker]="deliveredDatePicker" formControlName="orderDeliveredAt" placeholder="Choose date" class="border rounded-2">
               <mat-datepicker-toggle matSuffix [for]="deliveredDatePicker">
                 <i class="bi bi-calendar"></i> 
               </mat-datepicker-toggle>
@@ -87,7 +95,7 @@
           <div class="form-group">
             <label class="form-label fw-bold mb-2">Client</label>
             <mat-form-field appearance="outline" class="w-100">
-              <input type="text" matInput formControlName="clientId" placeholder="Search clients..." [matAutocomplete]="autoClient" class="border rounded-2">
+              <input type="text" matInput formControlName="client_id" placeholder="Search clients..." [matAutocomplete]="autoClient" class="border rounded-2">
               <mat-autocomplete #autoClient="matAutocomplete" [displayWith]="displayClient.bind(this)">
                 <mat-option *ngFor="let client of filteredClients | async" [value]="client.id">
                   {{ client.user.name }} : {{ client.user.phone }}
@@ -102,7 +110,7 @@
           <div class="form-group">
             <label class="form-label fw-bold mb-2">Handy Man</label>
             <mat-form-field appearance="outline" class="w-100">
-              <input type="text" matInput formControlName="handyManId" placeholder="Search handy Man.." [matAutocomplete]="autoHandyMan" class="border rounded-2">
+              <input type="text" matInput formControlName="handy_men_id" placeholder="Search handy Man.." [matAutocomplete]="autoHandyMan" class="border rounded-2">
               <mat-autocomplete #autoHandyMan="matAutocomplete" [displayWith]="displayHandyMan.bind(this)">
                 <mat-option *ngFor="let handyMan of filteredHandyMans | async" [value]="handyMan.id">
                   {{ handyMan.user.name }} : {{ handyMan.user.phone }}
@@ -111,7 +119,21 @@
             </mat-form-field>
           </div>
         </div>
-
+        <!-- Order status Selection -->
+        <div class="col-md-12">
+          <div class="form-group">
+            <label class="form-label fw-bold mb-2">Order Status</label>
+            <mat-form-field appearance="outline" class="w-100">
+              <!-- <input type="text" matInput [matAutocomplete]="autoOrderStatus" formControlName="orderStatus"  class="border rounded-2"> -->
+              <mat-select  [(value)]="selected" formControlName="orderStatus" >
+                <mat-option value="1">Pending</mat-option>
+                <mat-option value="2">Processing</mat-option>
+                <mat-option value="3">Delivred</mat-option>
+                <mat-option value="4">Canceled</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
         <div class="col-12">
           <button mat-raised-button color="primary" type="submit" class="btn btn-primary">Create Order</button>
         </div>

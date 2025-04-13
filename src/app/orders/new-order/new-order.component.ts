@@ -55,6 +55,7 @@ import {
   styleUrls: ['./new-order.component.css'],
 })
 export class NewOrderComponent implements OnInit {
+  selected = '1';
   orderForm: FormGroup;
   allServices: Service[] = [];
   allClients: Client[] = [];
@@ -74,25 +75,27 @@ export class NewOrderComponent implements OnInit {
   ) {
     this.orderForm = this.fb.group({
       orderNumber: [''],
-      serviceId: [null, Validators.required], // Changed from '' to null
+      service_id: [null, Validators.required], // Changed from '' to null
       orderPrice: [0, [Validators.required, Validators.min(0)]],
-      description: ['', Validators.maxLength(500)],
+      orderDescription: ['', Validators.maxLength(500)],
       orderDate: [new Date().toISOString(), Validators.required],
-      deliveredDate: [''],
-      clientId: [null, Validators.required], // Changed from '' to null
-      handyManId: [null, Validators.required], // Changed from '' to null
+      orderDeliveredAt: [''],
+      client_id: [null, Validators.required], // Changed from '' to null
+      handy_men_id: [null, Validators.required], // Changed from '' to null
+      orderStatus: [''],
+      orderLocation: [''],
     });
   }
   get serviceControl() {
-    return this.orderForm.get('serviceId') as FormControl;
+    return this.orderForm.get('service_id') as FormControl;
   }
 
   get clientControl() {
-    return this.orderForm.get('clientId') as FormControl;
+    return this.orderForm.get('client_id') as FormControl;
   }
 
   get handyManControl() {
-    return this.orderForm.get('handyManId') as FormControl;
+    return this.orderForm.get('handy_men_id') as FormControl;
   }
 
   ngOnInit(): void {
@@ -102,23 +105,23 @@ export class NewOrderComponent implements OnInit {
   }
 
   // Add displayWith functions
-  displayService(serviceId: number): string {
-    const service = this.allServices.find((s) => s.id === serviceId);
+  displayService(service_id: number): string {
+    const service = this.allServices.find((s) => s.id === service_id);
     return service?.name || '';
   }
 
-  displayClient(clientId: number): string {
-    const client = this.allClients.find((c) => c.id === clientId);
+  displayClient(client_id: number): string {
+    const client = this.allClients.find((c) => c.id === client_id);
     return client?.user?.name || '';
   }
 
-  displayHandyMan(handyManId: number): string {
-    const handyMan = this.allHandyMans.find((h) => h.id === handyManId);
+  displayHandyMan(handy_men_id: number): string {
+    const handyMan = this.allHandyMans.find((h) => h.id === handy_men_id);
     return handyMan?.user?.name || '';
   }
 
   private setupFilters(): void {
-    this.filteredServices = this.orderForm.get('serviceId')!.valueChanges.pipe(
+    this.filteredServices = this.orderForm.get('service_id')!.valueChanges.pipe(
       startWith(''),
       debounceTime(300),
       distinctUntilChanged(),
@@ -126,7 +129,7 @@ export class NewOrderComponent implements OnInit {
       map((value) => this._filterServices(value))
     );
 
-    this.filteredClients = this.orderForm.get('clientId')!.valueChanges.pipe(
+    this.filteredClients = this.orderForm.get('client_id')!.valueChanges.pipe(
       startWith(''),
       debounceTime(300),
       distinctUntilChanged(),
@@ -134,7 +137,7 @@ export class NewOrderComponent implements OnInit {
     );
 
     this.filteredHandyMans = this.orderForm
-      .get('handyManId')!
+      .get('handy_men_id')!
       .valueChanges.pipe(
         startWith(''),
         debounceTime(300),
@@ -191,8 +194,8 @@ export class NewOrderComponent implements OnInit {
   }
 
   onServiceSelect(event: MatAutocompleteSelectedEvent): void {
-    const serviceId = event.option.value;
-    const selectedService = this.allServices.find((s) => s.id === serviceId);
+    const service_id = event.option.value;
+    const selectedService = this.allServices.find((s) => s.id === service_id);
     if (selectedService?.category) {
       this.orderForm.patchValue({
         orderPrice: selectedService.category.estimatedPrice,
@@ -220,7 +223,7 @@ export class NewOrderComponent implements OnInit {
         this.allHandyMans = handyMans;
 
         // Force update of autocomplete filters
-        ['serviceId', 'clientId', 'handyManId'].forEach((control) => {
+        ['service_id', 'client_id', 'handy_men_id'].forEach((control) => {
           this.orderForm
             .get(control)
             ?.setValue(this.orderForm.get(control)?.value);
@@ -234,6 +237,22 @@ export class NewOrderComponent implements OnInit {
   }
 
   onSubmit(): void {
-    // Implement form submission logic here.
+    if (this.orderForm.valid) {
+      const orderData = this.orderForm.value;
+      console.log(orderData);
+
+      this.orderService.addOrder(orderData).subscribe({
+        next: () => {
+          this.toastr.success('Order created successfully!');
+          this.router.navigate(['/list-new-order']);
+        },
+        error: (err) => {
+          this.toastr.error('Failed to create order');
+          console.error(err);
+        },
+      });
+    } else {
+      this.toastr.error('Please fill in all required fields correctly.');
+    }
   }
 }

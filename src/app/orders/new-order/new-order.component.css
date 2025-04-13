@@ -1,4 +1,4 @@
-input,textarea,mat-label {
+input,textarea,mat-label,mat-select {
   color: rgb(0, 0, 0) !important;
 }
 .td-picker {

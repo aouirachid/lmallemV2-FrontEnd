@@ -1,0 +1,75 @@
+<div class="modal-header">
+  <h4 class="modal-title">Edit Order {{ orderNumber }}</h4>
+  <button
+    type="button"
+    class="btn-close"
+    (click)="activeModal.dismiss()"
+  ></button>
+</div>
+
+<div class="modal-body" [formGroup]="form">
+  <!-- Order Price -->
+  <div class="mb-3">
+    <label class="form-label fw-bold">Order Price</label>
+    <input type="number" class="form-control" formControlName="orderPrice" />
+  </div>
+
+  <!-- Order Location -->
+  <div class="mb-3">
+    <label class="form-label fw-bold">Order Location</label>
+    <input type="text" class="form-control" formControlName="orderLocation" />
+  </div>
+
+  <!-- Order Description -->
+  <div class="mb-3">
+    <label class="form-label fw-bold">Order Description</label>
+    <textarea
+      class="form-control"
+      rows="3"
+      formControlName="orderDescription"
+    ></textarea>
+  </div>
+
+  <!-- Delivered Date -->
+  <div class="mb-3">
+    <label class="form-label fw-bold">Delivered Date & Time</label>
+    <input
+      type="datetime-local"
+      class="form-control"
+      formControlName="orderDeliveredAt"
+    />
+  </div>
+
+  <!-- Handy Man -->
+  <div class="mb-3">
+    <label class="form-label fw-bold">Handy Man</label>
+    <input
+      type="text"
+      class="form-control"
+      [ngbTypeahead]="searchHandyMan"
+      [inputFormatter]="formatter"
+      [resultFormatter]="formatter"
+      (selectItem)="selectHandyMan($event)"
+      [editable]="false"
+      placeholder="Search handy man..."
+    />
+  </div>
+
+  <!-- Order Status -->
+  <div class="mb-3">
+    <label class="form-label fw-bold">Order Status</label>
+    <select class="form-select" formControlName="orderStatus">
+      <option value="1">Pending</option>
+      <option value="2">Processing</option>
+      <option value="3">Delivered</option>
+      <option value="4">Canceled</option>
+    </select>
+  </div>
+</div>
+
+<div class="modal-footer">
+  <button class="btn btn-outline-secondary" (click)="activeModal.dismiss()">
+    Cancel
+  </button>
+  <button class="btn btn-primary" (click)="save()">Save</button>
+</div>

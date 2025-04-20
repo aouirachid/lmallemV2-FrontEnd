@@ -1,5 +1,6 @@
 import {
   ApplicationConfig,
+  importProvidersFrom,
   inject,
   provideZoneChangeDetection,
 } from '@angular/core';
@@ -13,6 +14,8 @@ import {
 import { ENVIRONMENT } from './environment.provider';
 import { environment } from '../environments/environment';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { ReactiveFormsModule } from '@angular/forms';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -28,5 +31,6 @@ export const appConfig: ApplicationConfig = {
       useClass: AuthInterceptor,
       multi: true,
     },
+    importProvidersFrom(NgbModalModule, ReactiveFormsModule),
   ],
 };

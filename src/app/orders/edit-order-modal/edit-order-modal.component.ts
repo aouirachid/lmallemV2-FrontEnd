@@ -5,6 +5,7 @@ import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
 import {
   NgbActiveModal,
@@ -20,6 +21,9 @@ import {
   map,
   Observable,
   startWith,
+  catchError,
+  of,
+  finalize,
 } from 'rxjs';
 import { HandyMan } from '../../Models/HandyMan';
 import { HandyManService } from '../../services/handy-man.service';
@@ -45,6 +49,8 @@ export class EditOrderModalComponent implements OnInit {
   filteredHandyMans!: Observable<HandyMan[]>;
   @ViewChild('instance', { static: true }) instance!: NgbTypeahead;
   searching = false;
+  loading = false;
+  submitting = false;
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -53,13 +59,17 @@ export class EditOrderModalComponent implements OnInit {
     private toastr: ToastrService,
     private svc: OrdersService
   ) {
+    this.initForm();
+  }
+
+  private initForm(): void {
     this.form = this.fb.group({
-      orderPrice: [''],
-      orderLocation: [''],
-      orderDescription: [''],
+      orderPrice: ['', [Validators.required]],
+      orderLocation: ['', [Validators.required]],
+      orderDescription: ['', [Validators.required]],
       orderDeliveredAt: [''],
-      handy_men_id: [''],
-      orderStatus: [''],
+      handy_men_id: ['', [Validators.required]],
+      orderStatus: ['', [Validators.required]],
     });
   }
 
@@ -68,18 +78,53 @@ export class EditOrderModalComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loadInitialData();
-    this.setupFilters();
-    this.svc.getOrder(this.orderId).subscribe((order) => {
-      this.form.patchValue({
-        orderPrice: order.orderPrice,
-        orderLocation: order.orderLocation,
-        orderDescription: order.orderDescription,
-        orderDeliveredAt: order.orderDeliveredAt,
-        handy_men_id: order.handy_men_id,
-        orderStatus: order.orderStatus,
-      });
-      this.orderNumber = order.orderNumber;
+    this.loading = true;
+    
+    // Load both initial data and order data concurrently
+    forkJoin({
+      handyMans: this.handyManService.getHandyMen().pipe(
+        catchError(err => {
+          console.error('Error loading handymen:', err);
+          this.toastr.error('Failed to load handymen data');
+          return of([]);
+        })
+      ),
+      order: this.svc.getOrder(this.orderId).pipe(
+        catchError(err => {
+          console.error('Error loading order:', err);
+          this.toastr.error('Failed to load order data');
+          return of(null);
+        })
+      )
+    }).pipe(
+      finalize(() => {
+        this.loading = false;
+      })
+    ).subscribe({
+      next: ({ handyMans, order }) => {
+        // Handle handymen data
+        this.allHandyMans = handyMans || [];
+        
+        // Handle order data
+        if (order) {
+          this.form.patchValue({
+            orderPrice: order.orderPrice,
+            orderLocation: order.orderLocation,
+            orderDescription: order.orderDescription,
+            orderDeliveredAt: order.orderDeliveredAt,
+            handy_men_id: order.handy_men_id,
+            orderStatus: order.orderStatus,
+          });
+          this.orderNumber = order.orderNumber;
+        }
+        
+        // Setup filters
+        this.setupFilters();
+      },
+      error: (err) => {
+        console.error('Error in ngOnInit:', err);
+        this.toastr.error('Failed to initialize form');
+      }
     });
   }
 
@@ -93,14 +138,19 @@ export class EditOrderModalComponent implements OnInit {
     if (typeof value === 'string') {
       filterValue = value.toLowerCase();
     } else if (typeof value === 'number') {
+      const handyMan = this.allHandyMans.find((h) => h.id === value);
+      if (handyMan?.user?.name) {
+        return [handyMan];
+      }
       filterValue = value.toString().toLowerCase();
     }
+    
     return this.allHandyMans.filter(
       (handyMan) =>
-        (handyMan.user.name ? handyMan.user.name.toLowerCase() : '').includes(
+        (handyMan.user?.name ? handyMan.user.name.toLowerCase() : '').includes(
           filterValue
         ) ||
-        (handyMan.user.phone ? handyMan.user.phone.toLowerCase() : '').includes(
+        (handyMan.user?.phone ? handyMan.user.phone.toLowerCase() : '').includes(
           filterValue
         )
     );
@@ -115,44 +165,32 @@ export class EditOrderModalComponent implements OnInit {
     );
   }
 
-  private loadInitialData(): void {
-    forkJoin({
-      handyMans: this.handyManService.getHandyMen(),
-    }).subscribe({
-      next: ({ handyMans }) => {
-        this.allHandyMans = handyMans;
-
-        // Force update of autocomplete filters
-        ['handy_men_id'].forEach((control) => {
-          this.form.get(control)?.setValue(this.form.get(control)?.value);
-        });
-      },
-      error: (err) => {
-        this.toastr.error('Failed to load initial data');
-        console.error(err);
-      },
-    });
-  }
-
   searchHandyMan = (text$: Observable<string>) =>
     text$.pipe(
       debounceTime(200),
       distinctUntilChanged(),
-      map((term) =>
-        this.allHandyMans
+      map((term) => {
+        if (!term || !this.allHandyMans || !this.allHandyMans.length) {
+          return this.allHandyMans.slice(0, 10);
+        }
+        
+        return this.allHandyMans
           .filter(
             (handyMan) =>
-              handyMan.user.name.toLowerCase().includes(term.toLowerCase()) ||
-              handyMan.user.phone.toLowerCase().includes(term.toLowerCase())
+              (handyMan.user?.name?.toLowerCase().includes(term.toLowerCase()) || false) ||
+              (handyMan.user?.phone?.toLowerCase().includes(term.toLowerCase()) || false)
           )
-          .slice(0, 10)
-      )
+          .slice(0, 10);
+      })
     );
 
-  formatter = (handyMan: HandyMan) => handyMan.user.name;
+  formatter = (handyMan: HandyMan) => {
+    if (!handyMan || !handyMan.user) return '';
+    return handyMan.user.name || '';
+  };
 
   selectHandyMan(event: any) {
-    if (event) {
+    if (event && event.item) {
       this.form.patchValue({
         handy_men_id: event.item.id,
       });
@@ -160,8 +198,32 @@ export class EditOrderModalComponent implements OnInit {
   }
 
   save() {
-    this.svc
-      .updateOrder(this.orderId, this.form.value)
-      .subscribe(() => this.activeModal.close(this.form.value));
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      this.toastr.error('Please fill all required fields', 'Validation Error');
+      return;
+    }
+    
+    this.submitting = true;
+    this.svc.updateOrder(this.orderId, this.form.value)
+      .pipe(
+        finalize(() => {
+          this.submitting = false;
+        })
+      )
+      .subscribe({
+        next: (response) => {
+          this.toastr.success('Order updated successfully');
+          this.activeModal.close({ success: true, data: response });
+        },
+        error: (error) => {
+          console.error('Error updating order:', error);
+          this.toastr.error('Failed to update order');
+        },
+      });
+  }
+  
+  dismiss() {
+    this.activeModal.dismiss();
   }
 }

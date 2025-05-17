@@ -8,7 +8,7 @@
 </div>
 
 <div class="container mt-4">
-    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dttrigger" class="table table-hover">
+    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-hover">
         <thead>
             <tr>
                 <th scope="col">Id</th>
@@ -20,7 +20,6 @@
                 <th scope="col">Phone</th>
                 <th scope="col">Handy man</th>
                 <th scope="col">Phone</th>
-                <!-- <th scope="col">Status</th> -->
                 <th scope="col">Action</th>
             </tr>
         </thead>
@@ -35,11 +34,6 @@
                 <td>{{ order.client.user.phone }}</td>
                 <td>{{ order.handy_men.user.name }}</td>
                 <td>{{ order.handy_men.user.phone }}</td>
-                
-                <!-- <td *ngIf="order.status == '1';else inactive"><span class="badge text-bg-success">Pending</span></td>
-                <ng-template #inactive>
-                    <td><span class="badge text-bg-danger">Inactive</span></td>
-                </ng-template> -->
                 <td>
                     <button type="button" class="btn btn-success mx-2" (click)="openEdit(order.id)"><i class="fa fa-edit"></i></button>
                 </td>

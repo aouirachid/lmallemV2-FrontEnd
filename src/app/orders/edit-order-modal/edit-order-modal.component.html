@@ -1,75 +1,136 @@
 <div class="modal-header">
-  <h4 class="modal-title">Edit Order {{ orderNumber }}</h4>
+  <h4 class="modal-title" id="modal-basic-title">Edit Order {{ orderNumber }}</h4>
   <button
     type="button"
     class="btn-close"
-    (click)="activeModal.dismiss()"
+    aria-label="Close"
+    (click)="dismiss()"
   ></button>
 </div>
 
-<div class="modal-body" [formGroup]="form">
-  <!-- Order Price -->
-  <div class="mb-3">
-    <label class="form-label fw-bold">Order Price</label>
-    <input type="number" class="form-control" formControlName="orderPrice" />
+<div class="modal-body">
+  <div *ngIf="loading" class="text-center p-3">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="mt-2">Loading order details...</p>
   </div>
 
-  <!-- Order Location -->
-  <div class="mb-3">
-    <label class="form-label fw-bold">Order Location</label>
-    <input type="text" class="form-control" formControlName="orderLocation" />
-  </div>
+  <form [formGroup]="form" *ngIf="!loading">
+    <!-- Order Price -->
+    <div class="mb-3">
+      <label for="orderPrice" class="form-label fw-bold">Order Price</label>
+      <input 
+        type="number" 
+        id="orderPrice"
+        class="form-control" 
+        formControlName="orderPrice" 
+        [class.is-invalid]="form.get('orderPrice')?.invalid && form.get('orderPrice')?.touched"
+      />
+      <div class="invalid-feedback" *ngIf="form.get('orderPrice')?.invalid && form.get('orderPrice')?.touched">
+        Order price is required
+      </div>
+    </div>
 
-  <!-- Order Description -->
-  <div class="mb-3">
-    <label class="form-label fw-bold">Order Description</label>
-    <textarea
-      class="form-control"
-      rows="3"
-      formControlName="orderDescription"
-    ></textarea>
-  </div>
+    <!-- Order Location -->
+    <div class="mb-3">
+      <label for="orderLocation" class="form-label fw-bold">Order Location</label>
+      <input 
+        type="text" 
+        id="orderLocation"
+        class="form-control" 
+        formControlName="orderLocation" 
+        [class.is-invalid]="form.get('orderLocation')?.invalid && form.get('orderLocation')?.touched"
+      />
+      <div class="invalid-feedback" *ngIf="form.get('orderLocation')?.invalid && form.get('orderLocation')?.touched">
+        Order location is required
+      </div>
+    </div>
 
-  <!-- Delivered Date -->
-  <div class="mb-3">
-    <label class="form-label fw-bold">Delivered Date & Time</label>
-    <input
-      type="datetime-local"
-      class="form-control"
-      formControlName="orderDeliveredAt"
-    />
-  </div>
+    <!-- Order Description -->
+    <div class="mb-3">
+      <label for="orderDescription" class="form-label fw-bold">Order Description</label>
+      <textarea
+        id="orderDescription"
+        class="form-control"
+        rows="3"
+        formControlName="orderDescription"
+        [class.is-invalid]="form.get('orderDescription')?.invalid && form.get('orderDescription')?.touched"
+      ></textarea>
+      <div class="invalid-feedback" *ngIf="form.get('orderDescription')?.invalid && form.get('orderDescription')?.touched">
+        Order description is required
+      </div>
+    </div>
 
-  <!-- Handy Man -->
-  <div class="mb-3">
-    <label class="form-label fw-bold">Handy Man</label>
-    <input
-      type="text"
-      class="form-control"
-      [ngbTypeahead]="searchHandyMan"
-      [inputFormatter]="formatter"
-      [resultFormatter]="formatter"
-      (selectItem)="selectHandyMan($event)"
-      [editable]="false"
-      placeholder="Search handy man..."
-    />
-  </div>
+    <!-- Delivered Date -->
+    <div class="mb-3">
+      <label for="orderDeliveredAt" class="form-label fw-bold">Delivered Date & Time</label>
+      <input
+        type="datetime-local"
+        id="orderDeliveredAt"
+        class="form-control"
+        formControlName="orderDeliveredAt"
+      />
+    </div>
 
-  <!-- Order Status -->
-  <div class="mb-3">
-    <label class="form-label fw-bold">Order Status</label>
-    <select class="form-select" formControlName="orderStatus">
-      <option value="1">Pending</option>
-      <option value="2">Processing</option>
-      <option value="3">Delivered</option>
-      <option value="4">Canceled</option>
-    </select>
-  </div>
+    <!-- Handy Man -->
+    <div class="mb-3">
+      <label for="handyMan" class="form-label fw-bold">Handy Man</label>
+      <input
+        id="handyMan"
+        type="text"
+        class="form-control"
+        [ngbTypeahead]="searchHandyMan"
+        [inputFormatter]="formatter"
+        [resultFormatter]="formatter"
+        (selectItem)="selectHandyMan($event)"
+        [editable]="false"
+        placeholder="Search handy man..."
+        [class.is-invalid]="form.get('handy_men_id')?.invalid && form.get('handy_men_id')?.touched"
+      />
+      <div class="invalid-feedback" *ngIf="form.get('handy_men_id')?.invalid && form.get('handy_men_id')?.touched">
+        Handy man is required
+      </div>
+    </div>
+
+    <!-- Order Status -->
+    <div class="mb-3">
+      <label for="orderStatus" class="form-label fw-bold">Order Status</label>
+      <select 
+        id="orderStatus"
+        class="form-select" 
+        formControlName="orderStatus"
+        [class.is-invalid]="form.get('orderStatus')?.invalid && form.get('orderStatus')?.touched"
+      >
+        <option value="">Select status</option>
+        <option value="1">Pending</option>
+        <option value="2">Processing</option>
+        <option value="3">Delivered</option>
+        <option value="4">Canceled</option>
+      </select>
+      <div class="invalid-feedback" *ngIf="form.get('orderStatus')?.invalid && form.get('orderStatus')?.touched">
+        Order status is required
+      </div>
+    </div>
+  </form>
 </div>
 
 <div class="modal-footer">
-  <button class="btn btn-outline-secondary" (click)="activeModal.dismiss()">
+  <button 
+    type="button" 
+    class="btn btn-outline-secondary" 
+    [disabled]="submitting"
+    (click)="dismiss()"
+  >
     Cancel
   </button>
-  <button class="btn btn-primary" (click)="save()">Save</button>
+  <button 
+    type="button" 
+    class="btn btn-primary" 
+    (click)="save()" 
+    [disabled]="loading || submitting || form?.invalid"
+  >
+    <span *ngIf="submitting" class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+    Save
+  </button>
 </div>

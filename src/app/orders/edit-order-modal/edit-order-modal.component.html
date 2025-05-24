@@ -128,7 +128,7 @@
     type="button" 
     class="btn btn-primary" 
     (click)="save()" 
-    [disabled]="loading || submitting || form?.invalid"
+    [disabled]="loading || submitting || form.invalid"
   >
     <span *ngIf="submitting" class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
     Save

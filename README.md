@@ -1,27 +1,69 @@
-# LmallemFrontend
+# Lmallem Frontend
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.0.7.
+This is the frontend application for the Lmallem platform, built with [Angular](https://angular.io/) version 18.0.7.
 
-## Development server
+## Project Overview
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Lmallem is a platform that connects clients with handymen and service providers. The frontend application provides a user interface for:
+- Client management
+- Service provider (handyman) management
+- Order management
+- Category management
+- Admin dashboard
+- Authentication and authorization
 
-## Code scaffolding
+## Prerequisites
+
+- Node.js (LTS version recommended)
+- npm (comes with Node.js)
+- Angular CLI (`npm install -g @angular/cli`)
+
+## Getting Started
+
+1. Clone the repository
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Start the development server:
+   ```bash
+   ng serve
+   ```
+4. Navigate to `http://localhost:4200/` in your browser
+
+## Project Structure
+
+The application is organized into several key modules:
+- `/src/app/admin` - Admin dashboard and management features
+- `/src/app/auth` - Authentication and authorization
+- `/src/app/client` - Client-related features
+- `/src/app/handyMan` - Handyman/service provider features
+- `/src/app/orders` - Order management
+- `/src/app/category` - Category management
+- `/src/app/services` - Shared services
+- `/src/app/Models` - Data models and interfaces
+
+## Development
+
+### Code Scaffolding
 
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-## Build
+### Building
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
-## Running unit tests
+### Testing
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+- Run `ng test` to execute unit tests via [Karma](https://karma-runner.github.io)
+- Run `ng e2e` to execute end-to-end tests (requires additional testing package)
 
-## Running end-to-end tests
+## Additional Resources
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+- [Angular Documentation](https://angular.io/docs)
+- [Angular CLI Overview](https://angular.dev/tools/cli)
+- [Angular Material](https://material.angular.io/) (if used in the project)
 
-## Further help
+## Support
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+For any issues or questions, please contact the development team.

@@ -11,7 +11,7 @@ import { EditOrderModalComponent } from '../edit-order-modal/edit-order-modal.co
 @Component({
   selector: 'app-processing-order',
   standalone: true,
-  imports: [RouterModule, NgFor, NgIf, DataTablesModule, CommonModule],
+  imports: [RouterModule, NgFor, DataTablesModule, CommonModule],
   templateUrl: './processing-order.component.html',
   styleUrl: './processing-order.component.css',
 })

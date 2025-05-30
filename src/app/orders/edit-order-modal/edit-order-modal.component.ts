@@ -67,7 +67,7 @@ export class EditOrderModalComponent implements OnInit {
       orderPrice: ['', [Validators.required]],
       orderLocation: ['', [Validators.required]],
       orderDescription: ['', [Validators.required]],
-      orderDeliveredAt: [''],
+      orderDeliveredAt: [new Date().toISOString().slice(0, 16)],
       handy_men_id: ['', [Validators.required]],
       orderStatus: ['', [Validators.required]],
     });
@@ -107,14 +107,25 @@ export class EditOrderModalComponent implements OnInit {
         
         // Handle order data
         if (order) {
+          console.log('Original orderDeliveredAt:', order.orderDeliveredAt);
+          
+          // Format the date for the datetime-local input
+          const deliveredAt = order.orderDeliveredAt ? 
+            new Date(order.orderDeliveredAt).toISOString().slice(0, 16) : 
+            new Date().toISOString().slice(0, 16);
+          
+          console.log('Formatted deliveredAt:', deliveredAt);
+          
           this.form.patchValue({
             orderPrice: order.orderPrice,
             orderLocation: order.orderLocation,
             orderDescription: order.orderDescription,
-            orderDeliveredAt: order.orderDeliveredAt,
+            orderDeliveredAt: deliveredAt,
             handy_men_id: order.handy_men_id,
             orderStatus: order.orderStatus,
           });
+          
+          console.log('Form value after patch:', this.form.value);
           this.orderNumber = order.orderNumber;
         }
         
@@ -205,7 +216,20 @@ export class EditOrderModalComponent implements OnInit {
     }
     
     this.submitting = true;
-    this.svc.updateOrder(this.orderId, this.form.value)
+    const formData = { ...this.form.value };
+    
+    console.log('Form value before save:', this.form.value);
+    
+    // Ensure the date is in ISO format
+    if (formData.orderDeliveredAt) {
+      const date = new Date(formData.orderDeliveredAt);
+      formData.orderDeliveredAt = date.toISOString();
+      console.log('Converted date:', formData.orderDeliveredAt);
+    }
+    
+    console.log('Final data being sent to backend:', formData);
+    
+    this.svc.updateOrder(this.orderId, formData)
       .pipe(
         finalize(() => {
           this.submitting = false;

@@ -6,3 +6,41 @@
         </div>
     </div>
 </div>
+
+<div class="container mt-4">
+    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Order Day</th>
+                <th scope="col">Order Number</th>
+                <th scope="col">Delivred At</th>
+                <th scope="col">Service</th>
+                <th scope="col">Price</th>
+                <th scope="col">Location</th>
+                <th scope="col">Description</th>
+                <th scope="col">Client</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Handy man</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let order of Orders; let i = index">
+                <td>{{ order.orderDate | date:'dd/MM/yyyy' }}</td>
+                <td>{{ order.orderNumber }}</td>
+                <td>{{ order.orderDeliveredAt | date:'dd/MM/yyyy HH:mm' }}</td>
+                <td>{{ order.service.name }}</td>
+                <td>{{ order.orderPrice }}</td>
+                <td>{{ order.orderLocation }}</td>
+                <td>{{ order.orderDescription }}</td>
+                <td>{{ order.client.user.name }}</td>
+                <td>{{ order.client.user.phone }}</td>
+                <td>{{ order.handy_men.user.name }}</td>
+                <td>{{ order.handy_men.user.phone }}</td>
+                <td>
+                    <button type="button" class="btn btn-success mx-2" (click)="openEdit(order.id)"><i class="fa fa-edit"></i></button>
+                </td>
+        </tbody>
+    </table>    
+</div>

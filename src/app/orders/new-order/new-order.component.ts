@@ -79,7 +79,7 @@ export class NewOrderComponent implements OnInit {
       orderPrice: [0, [Validators.required, Validators.min(0)]],
       orderDescription: ['', Validators.maxLength(500)],
       orderDate: [new Date().toISOString(), Validators.required],
-      orderDeliveredAt: [''],
+      orderDeliveredAt: [new Date().toISOString(), Validators.required],
       client_id: [null, Validators.required], // Changed from '' to null
       handy_men_id: [null, Validators.required], // Changed from '' to null
       orderStatus: [''],
